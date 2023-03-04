@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: quoters-postgres-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: quoters-postgres
+  template:
+    metadata: 
+      labels:
+        app: quoters-postgres
+    spec:
+      containers:
+        - name: quoters-postgres
+          image: postgres 
+          env:
+            - name: POSTGRES_HOST_AUTH_METHOD
+              value: trust
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: quoters-postgres-srv
+spec:
+  selector:
+    app: quoters-postgres
+  ports:
+    - name: db
+      protocol: TCP
+      port: 5432
+      targetPort: 5432
+  
+ 
+ 

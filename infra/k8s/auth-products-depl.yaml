@@ -1,0 +1,75 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-products-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: auth-products
+  template:
+    metadata:
+      labels:
+        app: auth-products
+    spec:
+      containers:
+        - name: auth-products
+          image: cristiancasd/herbaquoter-auth-products  
+          env:
+#            - name: MONGO_URI
+#              value: 'postgresdb://auth-products-postgres-srv:5432/auth-products'
+            - name: DB_PASSWORD
+              value: '1389!DJ12nddcsvcds@w1'
+
+            - name: DB_NAME
+              value: 'auth-products-postgres'
+
+            - name: DB_HOST
+              value: 'auth-products-postgres-srv'
+
+            - name: DB_PORT
+              value: '5432'
+
+            - name: DB_USERNAME
+              value: 'postgres'
+
+            - name: CLOUDINARY_URL
+              value: 'cloudinary://649859583518348:6gM1KfVDWU528O_2h_x-wsvMnvs@cristiancasd'
+
+            - name: API_KEY
+              value: '649859583518348'
+
+            - name: API_SECRET
+              value: '6gM1KfVDWU528O_2h_x-wsvMnvs'
+
+            - name: JWT_SECRET
+              value: 'passJWT3w125CriAHerb'
+
+            - name: PORT
+              value: '3009'
+
+            - name: HOST_API
+              value: 'http://localhost:3009/api'
+
+            - name: STAGE
+              value: 'dev'
+
+  
+#            - name: JWT_KEY
+#              valueFrom:
+#                secretKeyRef:
+#                  name: jwt-secret
+#                  key: JWT_KEY
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth-products-srv
+spec:
+  selector:
+    app: auth-products
+  ports:
+    - name: auth-products
+      protocol: TCP
+      port: 3009
+      targetPort: 3009
