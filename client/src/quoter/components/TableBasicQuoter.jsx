@@ -105,7 +105,7 @@ export const TableBasicQuoter=()=>{
                         </TableRow>
                         <TableRow>
                             <TableCell colSpan={1}>PV:</TableCell>
-                            <TableCell align="center">{activeQuoter.pv}</TableCell>
+                            <TableCell align="center">{activeQuoter.pv && activeQuoter.pv.toFixed(2)}</TableCell>
                         </TableRow>
                         </TableBody>
                     </Table>

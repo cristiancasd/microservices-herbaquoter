@@ -5,6 +5,7 @@ import { useDispatch, useSelector,  } from "react-redux";
 import { Link} from "react-router-dom";
 import { startLogout } from "../../store/auth/thunks";
 import { handleMobileOpen, setDefaultInitalVariablesRedux, setNavBarSelection } from "../../store/quoter/quoterSlice";
+import { startExecuteSeed } from "../../store/quoter/thunks";
 
 
 const pages = ['Quoter', 'Categ/Prod', 'Admin'];
@@ -13,7 +14,7 @@ const settings = ['Profile', 'Edit Profile', 'Logout'];
 export const Navbar = ({drawerWidth=240}) => {
   const dispatch = useDispatch();  
 
-  const {mobileOpen, navBarSelection } = useSelector(state => state.quoter)
+  const {mobileOpen, navBarSelection, quotersDefault } = useSelector(state => state.quoter)
   const {user } = useSelector(state => state.auth)
   
   const [anchorElUser, setAnchorElUser] = useState(null);
@@ -38,7 +39,6 @@ export const Navbar = ({drawerWidth=240}) => {
   }
 
 
-  
 
   
   return (
@@ -110,6 +110,9 @@ export const Navbar = ({drawerWidth=240}) => {
                 <MenuItem key='editProfile' onClick={handleCloseUserMenu}>
                   <Typography textAlign="center">Edit Profile</Typography>
                 </MenuItem>
+                {user.rol==='super-admin'&&<MenuItem key='seed' onClick={()=>dispatch(startExecuteSeed(quotersDefault))}>
+                  <Typography textAlign="center">Execute Seed</Typography>
+                </MenuItem>}
                 <MenuItem key='logout' onClick={logout}>
                   <Typography textAlign="center">Logout</Typography>
                 </MenuItem>

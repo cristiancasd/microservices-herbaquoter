@@ -355,9 +355,24 @@ export const quoterSlice = createSlice({
         }, */
         
         setActiveQuoter:(state, {payload})=>{
-            console.log('estoy en setActiveQuoter' , payload);
-            state.activeQuoter=payload
+
+            if(payload.newQuoterActive){
+                state.quoterProcess= payload.quoterProcess;
+                state.statusQuoter='ok';
+                console.log('estoy en setActiveQuoter' , payload.newQuoterActive);
+                state.activeQuoter=payload.newQuoterActive
+            }else{
+                state.quoterProcess= 'View';
+                state.statusQuoter='ok';
+                console.log('estoy en setActiveQuoter' , payload);
+                state.activeQuoter=payload
+            }
+
+            
         },
+
+
+
         setActiveQuoterToEdit:(state, {payload})=>{
             if(payload){
                 const {title, description}=payload;

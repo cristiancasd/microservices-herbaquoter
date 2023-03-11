@@ -7,7 +7,6 @@ const Quoter = require('../src/models/Quoters');
 
 const { deleteImageCloudinary, saveImageOnCloudinary } = require('../helpers/imageManage');
 
-
 const getStaticImage = async (req, res) => {
     const { imageName } = req.params;
     let pathImagen = join(__dirname, '../static/images', imageName)
@@ -21,11 +20,12 @@ const updateImage = async (req, res, next) => {
     const idUser = req.user.id
     const userRole = req.user.rol
 
-
+    console.log('actualizando imagen para el quoter con id ', idQuoter,)
     const quoterDb = await Quoter.findAll({
         where: { '$id$': idQuoter },
         include: [{ model: Product, as: 'products', }]
     });
+
 
     const quoter = quoterDb[0];
 
@@ -33,11 +33,13 @@ const updateImage = async (req, res, next) => {
         const err = new Error(`Quoter with id ${idQuoter} don't exist`)
         err.reasons = [{ message: `Quoter with id ${idQuoter} don't exist` }]
         err.status = 400
+        console.log('quoter no encontrado')
         return next(err)
         return res.status(400).json({
             message: `Quoter with id ${idQuoter} don't exist`
         });
     }
+    console.log('quoter encontrado')
 
 
 
@@ -52,13 +54,18 @@ const updateImage = async (req, res, next) => {
         }
 
 
-    if (quoter.image && quoter.image !== "") deleteImageCloudinary(quoter.image)
+    if (quoter.image && quoter.image !== "") deleteImageCloudinary(quoter.image);
     const { secure_url } = await saveImageOnCloudinary(req.files.archivo)
+
+    console.log('listo, imagen guardada')
     await Quoter.upsert({
         id: idQuoter,
         image: secure_url
     });
+    console.log('listo, imagen upsert')
+
     quoter.image = secure_url;
+    console.log('quoter.image', quoter)
     res.json(quoter);
 }
 

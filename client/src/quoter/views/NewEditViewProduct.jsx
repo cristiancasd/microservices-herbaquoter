@@ -8,7 +8,7 @@ import { useForm } from "../../hooks/useForm";
 import { useEffect, useRef, useState } from "react";
 import { startCreateProduct, startDeleteProduct, startUpdateProduct, startUploadingFiles } from "../../store/quoter/thunks";
 import Swal from 'sweetalert2'
-import { setActiveProduct, setQuoterProcess } from "../../store/quoter/quoterSlice";
+import { setActiveProduct, setOnSaving, setQuoterProcess } from "../../store/quoter/quoterSlice";
 import { ButtonsManage } from "../components/ButtonsManage";
 //import { communicatingBackend, setIsSaving } from "../../store/quoter/quoterSlice";
 
@@ -46,11 +46,15 @@ export const NewEditViewProduct = () => {
           let err='';
           if(titleValid) err=' -'+titleValid;
           if(err!=='')Swal.fire('Formulary incorrect', err, 'error');
-          if(!isFormValid) return;
+          if(!isFormValid) {
+            dispatch(setOnSaving(false));
+            return;
+          }
+            
           quoterProcess==='Edit'
             ? dispatch(startUpdateProduct(formState, activeProduct.category))        
             : dispatch(startCreateProduct(formState)); 
-          //dispatch(setOnSaving(false));
+          dispatch(setOnSaving(false));
         }
     }, [onSaving])
 

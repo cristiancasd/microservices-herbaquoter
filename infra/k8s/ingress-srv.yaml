@@ -78,6 +78,15 @@ spec:
                 port:
                   number: 3010
 
+    # ********** Quoters - NODE ***************
+          - path: /api/files-quoters/?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: quoters-srv
+                port:
+                  number: 3010
+
     # ********** CLIENT - REACT ***************
                 
           - path: /?(.*)

@@ -90,23 +90,32 @@ useEffect(() => {
 }, [quoters])
 
 //Update menu when array Categories-Products changes
-useEffect(() => {
+
+const updateSideBarProductsAndCategories= ()=>{
   let menuProductsTemporal=[]
-  //console.log('*********************************un nuevo menu de products')
-    categories.map( category => {
-      menuProductsTemporal.push(<SideBarItemCategories key={category.id}{ ...category}/>);
-        products.map(product=>{ 
-            if(product.category.id===category.id){
-              menuProductsTemporal.push(<SideBarItemProducts key={product.id}{ ...product }/>);
-            }
-            return           
-        })
-      return
-      });
-  
-  setMenuProducts(menuProductsTemporal)
-  setOnUpdatemenu(!onUpdateMenu)
-}, [products && categories])
+
+  categories.map( category => {
+    menuProductsTemporal.push(<SideBarItemCategories key={category.id}{ ...category}/>);
+      products.map(product=>{ 
+          if(product.category.id===category.id){
+            menuProductsTemporal.push(<SideBarItemProducts key={product.id}{ ...product }/>);
+          }
+          return           
+      })
+    return
+    });
+
+    setMenuProducts(menuProductsTemporal)
+    setOnUpdatemenu(!onUpdateMenu)
+}
+
+useEffect(() => {
+  updateSideBarProductsAndCategories()
+}, [products])
+
+useEffect(() => {
+  updateSideBarProductsAndCategories()
+}, [categories])
 
 
 

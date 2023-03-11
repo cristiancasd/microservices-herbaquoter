@@ -1,9 +1,24 @@
 
 const Quoter = require("../src/models/Quoters");
-
+const sequelize = require('sequelize');
+const { Op } = require("sequelize");
 
 const titleQuoterByUserExist = async (title, idUser, idQuoter = undefined) => {
-  const quoterTitleExist = await Quoter.findAll({ where: { title: title, idUser: idUser } });
+  const quoterTitleExist = await Quoter.findAll({
+
+    // where: { title: '%title%', idUser: idUser } 
+
+    //Find with lower case
+    where: {
+      [Op.and]: [
+        { where: sequelize.where(
+          sequelize.fn('lower', sequelize.col('title')), 
+          sequelize.fn('lower', title)
+        )},
+        { idUser }
+      ]
+    }
+    });
 
   if (!idQuoter)
     return (quoterTitleExist[0])

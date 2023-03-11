@@ -7,7 +7,7 @@ const { validateJWTbackendNest } = require('../middlewares/validate-jwt-backend-
 
 const router=Router();
 
-router.get('/:imageName', getStaticImage);   
+router.get('/find/:imageName', getStaticImage);   
 
 router.put('/edit/:idQuoter',[
         validateJWTbackendNest,

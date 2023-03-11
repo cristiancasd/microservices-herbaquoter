@@ -12,12 +12,11 @@ const Quoter = require('../src/models/Quoters');
 
 
 const findDefaultQuoters = (req, res) => {
-
     const loseweight = initialData();
     const quotersInitial = loseweight.map(quoter => {
         return {
             ...quoter,
-            image: process.env.HOST_API + '/files/' + quoter.image
+            image: process.env.HOST_API + '/files-quoters/find/' + quoter.image
         }
     }
     );
@@ -44,20 +43,31 @@ const findAllQuoters = async (req, res) => {
     res.status(200).json(quoters);
 }
 
-const findAllQuotersByUser = async (req, res) => {
+const findAllQuotersByUser = async (req, res, next) => {
     const { idUser } = req.params;
+    //console.log('voy a traer los quoters para el user ', idUser)
 
-    const quoters = await Quoter.findAll({
-        where: { '$idUser$': idUser },
-        include: [{ model: Product, as: 'products', }]
-    });
-    res.status(200).json(quoters);
+    try{
+        const quoters = await Quoter.findAll({
+            where: { idUser },
+            //where: { '$idUser$': idUser },
+            include: [{ model: Product, as: 'products', }]
+        });
+        //console.log('la respuesta de all quoters by user es  ', quoters)
+        res.status(200).json(quoters);
+
+    }catch(err){
+        console.log('el error en all quoters by user es ', err)
+        const error = new BadRequestError('HAY UN ERRORSASO')
+        return next(error)
+    }
+    
 }
 
 const createQuoter = async (req, res, next) => {
     const { title, description = "", image = "", products = [] } = req.body;
     const idUser = req.user.id;
-
+    console.log('creating quoter to id: ',idUser)
     if (await titleQuoterByUserExist(title, idUser)) {
         const err = new BadRequestError('Title already exist, try with other one, ')
         return next(err)
@@ -72,24 +82,33 @@ const createQuoter = async (req, res, next) => {
         idUser
     }
 
+    try{
+        const quoter = new Quoter(data);
+        await quoter.save();
+    
+        await Promise.all(
+            products.map(async (product) => {
+                const { sku, quantity } = product
+                const productToAdd = { sku, quantity, quoterId: quoter.id }
+                const productsDb = new Product(productToAdd)
+                await productsDb.save();
+            })
+        )
+    
+        const quoterFinal = await Quoter.findAll({
+            where: { '$id$': quoter.id },
+            include: [{ model: Product, as: 'products', }]
+        });
+        res.status(201).json(quoterFinal);
+    }catch(error){
+        console.log('el error es ', error);
+        const err = new BadRequestError('TREMENDO ERROR guardando ')
 
-    const quoter = new Quoter(data);
-    await quoter.save();
+    }
+    
 
-    await Promise.all(
-        products.map(async (product) => {
-            const { sku, quantity } = product
-            const productToAdd = { sku, quantity, quoterId: quoter.id }
-            const productsDb = new Product(productToAdd)
-            await productsDb.save();
-        })
-    )
 
-    const quoterFinal = await Quoter.findAll({
-        where: { '$id$': quoter.id },
-        include: [{ model: Product, as: 'products', }]
-    });
-    res.status(201).json(quoterFinal);
+
 }
 
 const updateQuoter = async (req, res, next) => {
@@ -125,7 +144,7 @@ const updateQuoter = async (req, res, next) => {
         image: data.image,
     }
 
-    console.log('dataToUpload ', dataToUpload)
+   // console.log('dataToUpload ', dataToUpload)
 
     await Quoter.upsert({
         id: quoterId,
@@ -134,7 +153,7 @@ const updateQuoter = async (req, res, next) => {
         idUser
     });
 
-    console.log('listo el upsert')
+    //console.log('listo el upsert')
 
     const products = data.products;
     const productsDb = quoter.products;
@@ -154,7 +173,7 @@ const updateQuoter = async (req, res, next) => {
     })
 
     if (!productsEqual) {
-        console.log('voy a destruir productos')
+        //console.log('voy a destruir productos')
         await Product.destroy({
             where: { quoterId },
         });
@@ -164,9 +183,11 @@ const updateQuoter = async (req, res, next) => {
                 const productsDb = new Product(productToAdd)
                 await productsDb.save();
             }));
-        console.log('listo destrucción de productos')
+        //console.log('listo destrucción de productos')
+        //return next(err)
     }
 
+    
 
     res.json([{
         id: quoterId,
@@ -191,6 +212,7 @@ const deleteQuoter = async (req, res, next) => {
 
     await Quoter.destroy({ where: { id } });
     if (quoter.image && quoter.image !== "") deleteImageCloudinary(quoter.image)
+    
     res.json({ message: 'delete ok', id })
 }
 

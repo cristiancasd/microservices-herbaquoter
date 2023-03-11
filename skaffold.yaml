@@ -12,7 +12,6 @@ build:
   #  projectId: project-herbaquoter-dev
   artifacts:
     - image: cristiancasd/herbaquoter-auth-products
-  #  - image: us.gcr.io/project-herbaquoter-dev/herbaquoter-auth-products
       context: auth-products
       docker:
         dockerfile: Dockerfile

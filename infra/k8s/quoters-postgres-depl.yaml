@@ -4,7 +4,7 @@ metadata:
   name: quoters-postgres-depl
 spec:
   replicas: 1
-  selector:
+  selector: 
     matchLabels:
       app: quoters-postgres
   template:
@@ -16,8 +16,13 @@ spec:
         - name: quoters-postgres
           image: postgres 
           env:
-            - name: POSTGRES_HOST_AUTH_METHOD
-              value: trust
+            - name: POSTGRES_PASSWORD
+              value: 1389!DJ12nddcsvcds@w1
+            - name: POSTGRES_DB
+              value: quoters-postgres
+            #- name: POSTGRES_HOST_AUTH_METHOD
+            #  value: trust
+
 ---
 apiVersion: v1
 kind: Service

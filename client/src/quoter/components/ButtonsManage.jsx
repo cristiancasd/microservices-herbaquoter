@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux"
 import Swal from "sweetalert2"
 import { isTargetFilesCorrect } from "../../helpers/validFile"
 import { setOnSaving, setQuoterProcess } from "../../store/quoter/quoterSlice"
-import { startDeleteQuoter, startUploadingImageQuoter } from "../../store/quoter/thunks"
+import { startDeleteQuoter, startUploadingImageQuoter,startUploadingFiles, startDeleteProduct} from "../../store/quoter/thunks"
 
 
 export const ButtonsManage=(
@@ -26,7 +26,7 @@ export const ButtonsManage=(
     )=>{
     const {user}= useSelector(state=> state.auth)
     const {activeQuoter, quoterProcess, quoterSelected, products,
-        statusQuoter, navBarSelection, activeProduct} = useSelector(state=> state.quoter);
+        statusQuoter, navBarSelection, activeProduct, selection} = useSelector(state=> state.quoter);
 
     const fileInputRef=useRef();
     const dispatch=useDispatch();
@@ -43,8 +43,8 @@ export const ButtonsManage=(
           confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
           if (result.isConfirmed) {
-            navBarSelection==='Product'
-                ? dispatch(startDeleteQuoter(activeProduct.id))
+            navBarSelection==='products'
+                ? dispatch(startDeleteProduct(activeProduct.id))
                 : dispatch(startDeleteQuoter(activeQuoter.id));
           }
         })
@@ -62,7 +62,11 @@ export const ButtonsManage=(
 
     const onFileInputChange=({target})=>{
         isTargetFilesCorrect(target.files)
-          ? dispatch(startUploadingImageQuoter(target.files, products))
+          ? navBarSelection==='products'
+            ? dispatch(startUploadingFiles(target.files, activeProduct))
+            : dispatch(startUploadingImageQuoter(target.files, products))
+          
+          
           : Swal.fire('Error', 'The file must be a image (jpg, jpeg, png)', 'error')
     }
     console.log('activeQuoter.isDefaultQuoter, navBarSelectio, quoterProcess', activeQuoter.isDefaultQuoter, navBarSelection, quoterProcess)

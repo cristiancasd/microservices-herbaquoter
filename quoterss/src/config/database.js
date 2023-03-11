@@ -18,10 +18,11 @@ const dbConfig={
   host: process.env.DB_HOST_TEST,
 }*/
 
-console.log('dbConfig es !!!! ');
+//console.log('dbConfig es !!! ');
 
 module.exports= new Sequelize(
   dbConfig.database, 
+  //dbConfig.username, 
   dbConfig.username, 
   dbConfig.password, {
 

@@ -49,10 +49,15 @@ export const NewEditViewQuoter = () => {
       if(onSaving){
         //event.preventDefault();
         setFormSubmitted(true); //Cambiamos estado
+        console.log('************ activeQuoter: ', activeQuoter, activeQuoter.products.length===0)
         let err='';
         if(titleValid) err=' -'+titleValid;
+        if(activeQuoter.products.length===0) err=' -'+'You must select products';
         if(err!=='')Swal.fire('Formulary incorrect', err, 'error');
-        if(!isFormValid) return;
+        if(!isFormValid ||activeQuoter.products.length===0 ){
+          dispatch(setOnSaving(false));
+          return;
+        }
         quoterProcess==='Edit'
           ? dispatch(startUpdateQuoter({...activeQuoter, title, description}, products))        
           : dispatch(startCreateQuoter({...activeQuoter, title, description}, products));

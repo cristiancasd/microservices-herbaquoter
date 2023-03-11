@@ -15,23 +15,29 @@ const start= async()=>{
         throw new Error('JWT_KEY must be defined');
     }
 
-
     const port= process.env.PORT;
 
-    
-    try{
-        console.log('voy a intentar conectar GitAction test-1')
+    let wrongConnection=true
+    while(wrongConnection){
         
-        //await sequelize.sync();
-        
-
-        console.log('conectado a la db'.yellow)
-    }catch(error){
-        console.log('error conectand a la db'.red);
-        console.log(error)
+            try{
+                console.log('voy a intentar conectar GitAction ')
+                await sequelize.sync();
+                console.log('conectado a la db'.yellow)
+                wrongConnection=false;
+            }catch(error){
+                console.log('error conectand a la db'.red);
+                //console.log(error)
+                await sleep(3000)
+                function sleep(ms) {
+                return new Promise((resolve) => {
+                    setTimeout(resolve, ms);
+                });
+}
+            }
+ 
     }
     
-     
     app.listen(port, ()=>{
         console.log('servidor corriendo en port ', port)
     })

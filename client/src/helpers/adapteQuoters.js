@@ -1,8 +1,11 @@
 export const adapteQuoter = (data, products) => {
-    const quoterBackend= {...data}
-    let totalQuoterTemp=0;
-    let pvQuoterTemporal=0;
+    const quoterBackend= data
+
+        let totalQuoterTemp=0;  
+        let pvQuoterTemporal=0;
+        //console.log(' data.map(quoterBackend ', quoterBackend)
         const newProductsArrayQuoter=quoterBackend.products.map(productQuoter=>{
+           // console.log('newProductsArrayQuoter=quoterBackend.products.map(productQuoter, ',productQuoter)
             const productToUse= products.find(product=>product.sku==productQuoter.sku)
             if(productToUse){
                 totalQuoterTemp+= productQuoter.quantity*productToUse.pricepublic;
@@ -23,8 +26,9 @@ export const adapteQuoter = (data, products) => {
             description: quoterBackend.description,
             total: totalQuoterTemp,
             pv: pvQuoterTemporal,
-            products: newProductsArrayQuoter,
             image: quoterBackend.image,
+            products: newProductsArrayQuoter,
+            
         }
 }
 
@@ -33,6 +37,7 @@ export const adapteQuoter = (data, products) => {
 
 export const adapteQuotersArray = (data, products) => {
     return data.map(quoterBackend=>{
+        
         let totalQuoterTemp=0;  
         let pvQuoterTemporal=0;
         //console.log(' data.map(quoterBackend ', quoterBackend)

@@ -22,7 +22,9 @@ import { communicatingBackend, setActiveProductToEdit,
       setQuotersDefault,
       setQuoterSelected,
       onDeleteProduct,
-      onDeleteCategory
+      onDeleteCategory,
+      setActiveQuoter,
+      setActiveQuoterToEdit
     } from "./quoterSlice";
 
 /******************************** Loading Inital Data  **********************************************/
@@ -31,6 +33,8 @@ export const startLoadingProducts=()=>{
     return async(dispatch) =>{
         dispatch(communicatingBackend(true))
         try{ 
+
+
             const {data} = await quoterApi.get('/products/find');
             console.log('/----sdsds-data****** PRODUCTS',data)
             const {user, isactive, category, ...resto}=data[0];
@@ -95,6 +99,8 @@ export const startLoadingQuoters=(idUser, products)=>{
     return async(dispatch) =>{
         dispatch(communicatingBackend(true))
         try{ 
+            //const {data} = await quoterApi.get('/products/find');
+
             const {data} = await quoterApiNode.get('/quoters/idUser/'+idUser);
             console.log('****** Quoters by user', data)
             const quotersAdapted= adapteQuotersArray(data, products)
@@ -356,14 +362,18 @@ export const startUpdateQuoter=(quoter, products)=>{
     return async(dispatch) =>{
         dispatch(communicatingBackend(true))
         try{
+            console.log('************************ update QUoter')
             const {data}= await quoterApiNode.put('/quoters/edit/'+quoter.id, {image:"", ...quoter });
-            const quoterAdapted= adapteQuoter(data, products);
+            console.log('****** data UPDATE ', data);
+            const quoterAdapted= adapteQuoter(data[0], products);
+            console.log('***** data quoterADAPTED ', quoterAdapted);
             dispatch(onUpdateQuoters(quoterAdapted));
             dispatch(onSuccessMessage('Quoter updated'));
             setTimeout(()=>{
                 dispatch(clearSuccessMessage());
             },10);
         }catch(error){
+    
             const messageError= existQuoterError(error);
             dispatch(onErrorMessage(messageError));
             setTimeout(()=>{
@@ -403,8 +413,12 @@ export const startUploadingImageQuoter=(files=[], products=[])=>{
         const formData=new FormData();
         formData.append('archivo',files[0]);
         try{
-            const {data} = await quoterApiNode.put('/files/edit/'+activeQuoter.id, formData);
+            const {data} = await quoterApiNode.put('/files-quoters/edit/'+activeQuoter.id, formData);
+            
             const quoterAdapted= adapteQuoter(data, products)
+            dispatch(setActiveQuoter(quoterAdapted))
+            dispatch(setActiveQuoterToEdit({title:quoterAdapted.title, description:quoterAdapted.description}))  
+
             dispatch(onUpdateQuoters(quoterAdapted));
             dispatch(onSuccessMessage('Quoter Image upload'));
             setTimeout(()=>{
@@ -422,8 +436,37 @@ export const startUploadingImageQuoter=(files=[], products=[])=>{
 }
 
 
+export const startExecuteSeed=(quotersDefault)=>{
+    return async (dispatch) =>{
+        dispatch(communicatingBackend(true));
+
+        try{
+            console.log('executing SEED')
+            const {data}=await quoterApi.get('/seed');
+            dispatch(onSuccessMessage(`SEED EXECUTED`));
+            setTimeout(()=>{
+                dispatch(clearSuccessMessage());
+            },10);
+            console.log('seed executed ', data)
 
 
+            dispatch(startLoadingProducts())
+            dispatch(startLoadingCategories())
+            dispatch(setQuoters([]))
+            dispatch(setInitialQuoter({...quotersAdapted[0], isDefaultQuoter: true}))
+
+            
+        }catch(error){
+            console.log('error es ', error)
+            const errorMessage=existError(error,'SEED ', ` Error `)
+            dispatch(onErrorMessage(errorMessage))
+            setTimeout(()=>{
+                dispatch(clearErrorMessage());
+            },10);
+        }
+        dispatch(communicatingBackend(false)); 
+    }
+}
 /******************************** Common Function **********************************************/
 const existError=(error, type='', detail='')=>{
     console.log('error  existError', error); 
@@ -439,14 +482,16 @@ const existError=(error, type='', detail='')=>{
 }
 
 const existQuoterError=(error)=>{
-    
+    console.log('error ', error)
     try{
         return error.response
-        ? error.response.data.errors[0].message
-        : 'Network Error Backend' ;
+            ? error.response.data.errors[0].message
+            : 'Network Error Backend' ;
     }catch{
         return 'ERROR BACKEND, message dont exist'
     }
     
 }
+
+
     

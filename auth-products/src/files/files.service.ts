@@ -24,9 +24,6 @@ export class FilesService {
     if(user.rol=='user' && user.id!=id) throw new ForbiddenException('you do not have authorized');
     if(colection!='user'&&colection!='product') throw new BadRequestException(`colection "${colection}" is not correct`);
     
-    
-
-
 
     let modelo: Product | User;
 

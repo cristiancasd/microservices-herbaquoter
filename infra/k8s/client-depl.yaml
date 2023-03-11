@@ -21,7 +21,7 @@ spec:
               value: 'api/'
 
             - name: VITE_API_URL_NODE_DEV
-              value: 'quoters-srv'
+              value: 'api/'
 
             - name: VITE_API_STAGE
               value: 'dev'

@@ -8,14 +8,14 @@ import { AddProductQuoterItem } from "../components/AddProductQuoterItem";
  
  
 export const ViewAddProductsQuoter = () => {
-    const{products, activeQuoter, priceDiscountQuoter}= useSelector(state=> state.quoter);
+    const{products, activeQuoter, priceDiscountQuoter, isAddProductQuoterProcess, quoterProcess}= useSelector(state=> state.quoter);
     const dispatch=useDispatch()
 
     const updateQuoter=async()=>{ 
         console.log('QQQQQQQQQQQ   antes de updateQuoter ', activeQuoter)
         const newQuoterActive= await adaptNewActiveQuoter({activeQuoter, products, priceDiscountQuoter})
         console.log('QQQQQQQQQQQ   voy a updateQuoter ', newQuoterActive)
-        dispatch(setActiveQuoter(newQuoterActive));
+        dispatch(setActiveQuoter({newQuoterActive, isAddProductQuoterProcess, quoterProcess}));
         dispatch(setIsAddProductQuoterProcess(false));
     }
 
