@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: client-depl
+spec:
+  replicas: 1 
+  selector:
+    matchLabels:
+      app: client
+  template:
+    metadata:
+      labels:
+        app: client
+    spec:
+      containers:
+        - name: client
+          image: cristiancasd/herbaquoter-client
+          env:
+            - name: VITE_API_URL_NEST_DEV
+              #value: 'auth-products-srv'
+              value: 'api/'
+
+            - name: VITE_API_URL_NODE_DEV
+              value: 'api/'
+
+            - name: VITE_API_STAGE
+              value: 'dev'
+
+            - name: VITE_API_URL_NEST
+              value: 'https://herba-quoter-nest.herokuapp.com/api'
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: client-srv
+spec:
+  selector:
+    app: client
+  ports:
+    - name: client
+      protocol: TCP
+      port: 3011
+      targetPort: 3011
+ 

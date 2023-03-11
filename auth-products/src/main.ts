@@ -37,12 +37,12 @@ async function bootstrap() {
     )
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
+  SwaggerModule.setup('doc/auth-products', app, document);
 
   await app.listen(process.env.PORT);
-  console.log(`App running on port ${process.env.PORT}`)
+  console.log(`APP running on port ${process.env.PORT}`)
 
 
 }
-bootstrap(); 
+bootstrap();
 

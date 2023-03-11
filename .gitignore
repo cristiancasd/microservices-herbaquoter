@@ -1,3 +1,7 @@
+auth-products-depl.yaml
+
 node_modules/
 borrar/
 .env
+.env.production
+

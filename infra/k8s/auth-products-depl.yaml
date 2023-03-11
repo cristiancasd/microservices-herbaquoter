@@ -1,0 +1,81 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-products-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: auth-products
+  template:
+    metadata:
+      labels:
+        app: auth-products
+    spec:
+      containers:
+        - name: auth-products
+          image: cristiancasd/herbaquoter-auth-products  
+          env:
+#            - name: MONGO_URI
+#              value: 'postgresdb://auth-products-postgres-srv:5432/auth-products'
+            - name: DB_PASSWORD
+              value: 1389!DJ12nddcsvcds@w1
+
+            - name: DB_NAME
+              value: 'auth-products-postgres'
+
+            - name: DB_HOST
+              value: 'auth-products-postgres-srv'
+
+            - name: DB_PORT
+              value: '5432'
+ 
+            - name: DB_USERNAME
+              value: 'postgres'
+
+            - name: PORT
+              value: '3009'
+
+            - name: HOST_API
+              value: 'http://ticketing-criss.com/api'
+
+            - name: STAGE
+              value: 'dev'
+
+  
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secret-herbaquoter
+                  key: JWT_SECRET
+
+            - name: CLOUDINARY_URL
+              valueFrom:
+                secretKeyRef:
+                  name: cloudinary-url
+                  key: CLOUDINARY_URL
+
+            - name: API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: cloudinary-api-key
+                  key: API_KEY
+
+            - name: API_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: cloudinary-api-secret
+                  key: API_SECRET
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth-products-srv
+spec:
+  selector:
+    app: auth-products
+  ports:
+    - name: auth-products
+      protocol: TCP
+      port: 3009
+      targetPort: 3009

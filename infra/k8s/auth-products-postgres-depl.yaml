@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-products-postgres-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: auth-products-postgres
+  template: 
+    metadata:
+      labels:
+        app: auth-products-postgres
+    spec:
+      containers:
+        - name: auth-products-postgres
+          image: postgres 
+          env:
+            - name: POSTGRES_PASSWORD
+              value: 1389!DJ12nddcsvcds@w1
+            - name: POSTGRES_DB
+              value: auth-products-postgres
+            #- name: POSTGRES_HOST_AUTH_METHOD
+            #  value: trust
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth-products-postgres-srv
+spec:
+  selector:
+    app: auth-products-postgres
+  ports:
+    - name: db
+      protocol: TCP
+      port: 5432
+      targetPort: 5432
+  
+ 
+ 
