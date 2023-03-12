@@ -40,7 +40,7 @@ async function bootstrap() {
   SwaggerModule.setup('doc/auth-products', app, document);
 
   await app.listen(process.env.PORT);
-  console.log(`APP running on port ${process.env.PORT}`)
+  console.log(`APP running on port:  ${process.env.PORT}`)
 
 
 }
