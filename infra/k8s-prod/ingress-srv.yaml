@@ -80,7 +80,7 @@ spec:
     # ********** Quoters - NODE ***************
           - path: /api/files-quoters/?(.*)
             pathType: Prefix
-            backend: 
+            backend:
               service:
                 name: quoters-srv
                 port:
