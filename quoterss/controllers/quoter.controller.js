@@ -14,9 +14,14 @@ const Quoter = require('../src/models/Quoters');
 const findDefaultQuoters = (req, res) => {
     const loseweight = initialData();
     const quotersInitial = loseweight.map(quoter => {
+
+    const baseUrl=process.env.STAGE==='dev'
+        ? process.env.HOST_API
+        : process.env.HOST_API_PROD
+
         return {
             ...quoter,
-            image: process.env.HOST_API + '/files-quoters/find/' + quoter.image
+            image: baseUrl + '/files-quoters/find/' + quoter.image
         }
     }
     );

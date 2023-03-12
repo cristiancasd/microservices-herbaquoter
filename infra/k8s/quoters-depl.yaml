@@ -56,12 +56,17 @@ spec:
             - name: HOST_API
               value: 'http://ticketing-criss.com/api'
 
+            - name: HOST_API_PROD
+              value: 'http://herbaquoter.online/api'
+
             - name: STAGE
-              value: 'dev'
+              value: 'prod'
 
             - name: AXIOS_URL_BACKEND_USERS_DEV
-              #value: 'http://auth-products-srv/api/auth/check-renew-token'
               value: 'http://auth-products-srv:3009/api/auth/check-renew-token'
+
+            - name: AXIOS_URL_BACKEND_USERS
+              value: 'http://herbaquoter.online/api/auth/check-renew-token'
 
 
             #- name: AXIOS_URL_BACKEND_USERS_DEV

@@ -17,7 +17,7 @@ const validateJWTbackendNest= async (req,res,next)=>{
 
        const baseUrl=process.env.STAGE==='dev'
         ? process.env.AXIOS_URL_BACKEND_USERS_DEV
-        : process.env.AXIOS_URL_BACKEND_USERS
+        : process.env.AXIOS_URL_BACKEND_USERS 
 
         console.log('baseURL ', baseUrl)
         
