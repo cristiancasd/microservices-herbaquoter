@@ -67,18 +67,9 @@ spec:
 
             - name: AXIOS_URL_BACKEND_USERS
               value: 'http://herbaquoter.online/api/auth/check-renew-token'
+              #value: 'http://auth-products-srv:3009/api/auth/check-renew-token'
 
 
-            #- name: AXIOS_URL_BACKEND_USERS_DEV
-            #  value: 'http://auth-products-srv/api/auth/check-renew-token'
-            
- 
-  
-#            - name: JWT_KEY
-#              valueFrom:
-#                secretKeyRef:
-#                  name: jwt-secret
-#                  key: JWT_KEY
 ---
 apiVersion: v1
 kind: Service
