@@ -11,7 +11,7 @@ const start= async()=>{
 
     
     if (!process.env.PORT) {        
-        console.log('no hay puerto :(')
+        console.log('no hay puerto :')
         throw new Error('JWT_KEY must be defined');
     }
 
