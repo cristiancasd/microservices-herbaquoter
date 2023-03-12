@@ -195,8 +195,13 @@ export class SeedService {
     const products=await this.productsService.findAll({limit:100});
 
     let a=1;
+
+    const baseUrl=process.env.STAGE==='dev'
+      ? process.env.HOST_API
+      : process.env.HOST_API_PROD
+
     products.forEach(async (product) => { 
-      const path=process.env.HOST_API+'/files/product/'+product.image
+      const path=baseUrl+'/files/product/'+product.image
       a==1 ? a=2 :a=1
       await this.productsService.update(product.id, {image: path}, users[a])
     });
