@@ -41,7 +41,7 @@ export class AuthService {
       const {password:pass, ...resto }=user;
       return {
         user: resto,
-        token: this.getJWT({id: resto.id})
+        token: this.getJWT({id: resto.id, rol: user.rol})
       };
 
     }catch(error){
@@ -76,7 +76,7 @@ export class AuthService {
       const {password:pass, ...resto }=user;
       return {
         user: resto,
-        token: this.getJWT({id: user.id})
+        token: this.getJWT({id: user.id, rol: user.rol})
       };
   }
 
@@ -260,7 +260,7 @@ export class AuthService {
     const {password, ...resto }=user;
     return {
       user: resto,
-      token: this.getJWT({id: user.id})
+      token: this.getJWT({id: user.id, rol: user.rol})
     };
   }
 

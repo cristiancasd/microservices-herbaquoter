@@ -132,7 +132,7 @@ describe('DELETE /api/quoters/deleteallbyuser/', ()=>{
    })
 
    it('show error if a user try to delete the quoter of other one', async()=>{
-      let admin=  await adminData()
+      let admin=  adminData()
 
       const {tokenUser, tokenAdmin}=  tokens();
        const quoterUser= await globalCreateQuoter(quoterCorrect4, tokenUser);
