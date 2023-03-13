@@ -6,23 +6,20 @@ require('colors')
 
 
 const validateJWTbackendNest= async (req,res,next)=>{
+
+ 
     const tokenToReview=req.header('Authorization');
   
 
     try{
         if(!tokenToReview){
-            const err= new AuthError('Token missing, ')
+            const err= new AuthError('Token missing Nest, ')
             return next(err)
        }
 
        const baseUrl=process.env.STAGE==='dev'
         ? process.env.AXIOS_URL_BACKEND_USERS_DEV
         : process.env.AXIOS_URL_BACKEND_USERS 
-
-        console.log('baseURL ', baseUrl)
-        
-        console.log('token to review: ')
-        console.log(tokenToReview)
 
         const config = {
             headers: { Authorization: tokenToReview }
@@ -38,7 +35,6 @@ const validateJWTbackendNest= async (req,res,next)=>{
           config
         )
 
-        console.log('respues del backend: ',data)
         
         req.user=data.user
         req.userRol=data.user.rol

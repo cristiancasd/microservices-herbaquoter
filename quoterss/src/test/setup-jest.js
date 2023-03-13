@@ -8,14 +8,19 @@ const Quoter = require('../models/Quoters');
 const Product = require('../models/Products');
 
 const  { testData }  =    require('../../static/testData/testData');
+const { newJWT } = require('../../helpers/newJWT');
 const testDataPro=testData()
 const {quoterCorrect, quoterCorrect2, quoterCorrect3, quoterCorrect4, quoterBadWithoutTitle,quoterBadWithoutImage,quoterWithProductArrayBad }=testDataPro
 
 
+let defaultUser={ id: '42a7d9c9-4a05-4a36-aeab-33179850d87b', rol: 'user'};
+let defaultAdmin={ id: 'e1e70f53-de0d-44f5-968a-ec19c865a23a', rol: 'admin'};
+let defaultSuperAdmin={ id: 'b068b3d3-3bc9-426e-a38b-b37acd823f22', rol: 'super_admin'};
 
 let user={};
 let admin={};
 let super_admin={};
+
 
 let tokenAdmin='';
 let tokenUser='';
@@ -86,7 +91,7 @@ beforeAll(async () => {
 
     await sequelize.sync();
 
-    const infoAdmin= await signinTest();
+   /* const infoAdmin= await signinTest();
     tokenAdmin= infoAdmin.token;
     admin= infoAdmin.user;
 
@@ -97,10 +102,19 @@ beforeAll(async () => {
     const infoSuper= await signinTestSuperAdmin();
     tokenSuperAdmin=infoUser.token;
     super_admin=infoSuper.user;
+   */
 
-    
-    //const quoterAdmin= await globalCreateQuoter(quoterCorrect2, tokenAdmin);
-    //idQuoterAdmin=quoterAdmin.id;
+     tokenAdmin = await newJWT(defaultAdmin.id,defaultAdmin.rol)
+     tokenUser = await newJWT(defaultUser.id,defaultUser.rol) 
+     tokenSuperAdmin = await newJWT(defaultSuperAdmin.id,defaultSuperAdmin.rol) 
+
+    user={ ...defaultUser};
+    admin={ ...defaultAdmin};
+    super_admin={ ...defaultSuperAdmin};
+
+    console.log('token user es ', tokenUser)
+    console.log('token tokenAdmin es ', tokenAdmin)
+
 
   });
 
