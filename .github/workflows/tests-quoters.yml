@@ -3,7 +3,7 @@ name: tests-quoters
 on: 
   pull_request:
     paths:
-      - 'quoterss/**'  
+      - 'pruebas/**'  
 jobs:
   build:
     runs-on: ubuntu-latest
