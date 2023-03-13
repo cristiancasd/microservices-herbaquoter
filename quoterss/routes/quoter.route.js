@@ -8,6 +8,7 @@ const { validateJWTbackendNest } = require('../middlewares/validate-jwt-backend-
 //const { validRoles } = require('../middlewares/validate-roles');
 const { validateProductsArray } = require('../middlewares/validate-products-array');
 const { quoterByIdExist, quotersByUserExist } = require('../middlewares/validate-db');
+const { validateJwtLocally } = require('../middlewares/validate-jwt-locally');
 
 const router=Router();
  
@@ -21,7 +22,8 @@ router.get('/iduser/:idUser',[
 ] ,findAllQuotersByUser);
 
 router.put('/edit/:id',[    
-    validateJWTbackendNest,
+    //validateJWTbackendNest,
+    validateJwtLocally,
     check('id', 'id must be UUID').isUUID(),
     quoterByIdExist,
     check('title', 'Img must be String').isString(),
@@ -34,7 +36,8 @@ router.put('/edit/:id',[
 
 
 router.post('/create',[
-    validateJWTbackendNest,
+    //validateJWTbackendNest,
+    validateJwtLocally,
     check('title', 'title es obligatorio').not().isEmpty(),
     check('image', 'image must be String').isString(),
     check('products', 'products must be array').isArray(),
@@ -51,7 +54,8 @@ findQuoter);
 
 
 router.delete('/delete/:id',[
-    validateJWTbackendNest,
+    //validateJWTbackendNest,
+    validateJwtLocally,
     check('id', 'id must be UUID').isUUID(),
     quoterByIdExist,
     //check('id').custom(quoterByIdExists),
@@ -59,7 +63,8 @@ router.delete('/delete/:id',[
 ] ,deleteQuoter);
 
 router.delete('/deleteallbyuser/:idToDelete',[
-    validateJWTbackendNest,
+    //validateJWTbackendNest,
+    validateJwtLocally,
     check('idToDelete', 'idUser must be UUID').isUUID(),
     quotersByUserExist,
     validation
