@@ -1,9 +1,10 @@
-name: tests-quoters
+name: Postgres test quoters
 
 on: 
   pull_request:
     paths:
       - 'quoterss/**'  
+
 jobs:
   build:
     name: Build
@@ -30,4 +31,3 @@ jobs:
           DB_NAME_TEST: postgres #DB databaser
           DB_PASSWORD: postgres #DB password
           DB_PORT_TEST: 5432
-          JWT_SECRET: ${{ secrets.JWT_SECRET }}
