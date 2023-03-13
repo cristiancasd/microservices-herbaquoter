@@ -11,7 +11,7 @@ const start= async()=>{
 
     
     if (!process.env.PORT) {        
-        console.log('no hay puerto: ')
+        console.log('no hay puerto ')
         throw new Error('JWT_KEY must be defined');
     }
 
@@ -21,7 +21,7 @@ const start= async()=>{
     while(wrongConnection){
         
             try{
-                console.log('voy a intentar conectar GitAction ')
+                console.log('voy a intentar conectar GitAction 2')
                 await sequelize.sync();
                 console.log('conectado a la db'.yellow)
                 wrongConnection=false;
