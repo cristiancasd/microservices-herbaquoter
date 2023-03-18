@@ -111,7 +111,7 @@ describe('GET QUOTER BY ID /api/quoters/idQuoter', () =>{
 
         const quoterAdmin= await globalCreateQuoter(quoterCorrect2, tokenAdmin);
 
-        const response= await request(app).get('/api/quoters/'+quoterAdmin.id).send();
+        const response= await request(app).get('/api/quoters/findbyid/'+quoterAdmin.id).send();
         expect(response.statusCode).toBe(200);
         expect(response.body).toBeInstanceOf(Array);
 
