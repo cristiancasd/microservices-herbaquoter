@@ -8,7 +8,7 @@ module.exports = {
       },],
 
       tags: ["Quoters CRUD"], // operation's tag.
-      description: "Delete all for user id", // operation's desc.
+      description: "Delete all quoters for user id", // operation's desc.
       operationId: "deleteQuoterByUser", // unique operation id.
       parameters: [
         // expected params.
