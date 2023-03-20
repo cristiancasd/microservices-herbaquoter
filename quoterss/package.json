@@ -1,21 +1,16 @@
 {
   "name": "quoters",
   "version": "1.0.0",
-  "description": "", 
+  "description": "",
   "main": "index.js",
   "scripts": {
     "start": "cross-env NODE_ENV=development nodemon index.js",
-    "start:dev": "cross-env NODE_ENV=development nodemon index" ,
+    "start:dev": "cross-env NODE_ENV=development nodemon index",
     "test": "cross-env NODE_ENV=test2 jest --verbose --silent --detectOpenHandles",
     "test:ci": "cross-env NODE_ENV=test2 jest --detectOpenHandles",
-
     "testcriss": "jest --verbose --silent",
     "test:match": "npm run test --watch"
   },
-
-  
-
-
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -36,6 +31,7 @@
     "pg": "^8.8.0",
     "save": "^2.9.0",
     "sequelize": "^6.26.0",
+    "swagger-ui-express": "^4.6.2",
     "uuid": "^9.0.0"
   },
   "devDependencies": {

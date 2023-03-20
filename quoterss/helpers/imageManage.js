@@ -2,8 +2,8 @@ const cloudinary = require('cloudinary').v2;
 cloudinary.config(process.env.CLOUDINARY_URL);
   
  
-const deleteImageCloudinary = async (urlImage) => {
-    console.log('voy a borrar imagen')
+const deleteImageCloudinary = async (urlImage) => { 
+    console.log('voy a borrar imagen') 
     const nombreArr = urlImage.split('/');
     const nombre = nombreArr[nombreArr.length - 1];
     const [public_id] = nombre.split('.');

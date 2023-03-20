@@ -10,4 +10,5 @@ class UploadFileError extends custom_error.CustomError {
         return [{ message: this.data+' file error' }];
     } 
 }
-exports.uploadFileError = UploadFileError;
+exports.UploadFileError = UploadFileError;
+ 

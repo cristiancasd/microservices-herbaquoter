@@ -5,6 +5,8 @@ const fileUpload=require('express-fileupload');
 const { errorHandler } = require('./middlewares/error-handler');
 const { NotFoundError } = require('./errors/not-found-error');
 
+const swaggerUI = require("swagger-ui-express");
+const docs = require('./src/docs');
 
 
 
@@ -26,6 +28,8 @@ app.use(fileUpload({
 app.use('/api/quoters',require('./routes/quoter.route'));
 //app.use('/api/users',require('./routes/user.route'));
 app.use('/api/files-quoters',require('./routes/uploads.route'));
+
+app.use('/api/doc/quoters',swaggerUI.serve,swaggerUI.setup(docs));
 
 app.all('*', async (req, res,next) => {
     const err= new NotFoundError('Route ')
