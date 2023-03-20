@@ -85,6 +85,16 @@ spec:
                 name: quoters-srv
                 port:
                   number: 3010
+                  
+                  
+     # ********** DOC SWAGGER - NODE ***************
+          - path: /doc/quoters/?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: quoters-srv
+                port:
+                  number: 3010
 
     # ********** CLIENT - REACT ***************
                 
