@@ -47,17 +47,17 @@ Product.belongsTo(Quoter, {
 Quoter.hasMany(Product, { as: "products" });
 
 
-/*
+
 Product.prototype.toJSON =  function () {
     let values = Object.assign({}, this.get());
     delete values.createdAt;
     delete values.updatedAt;
     delete values.quoterId;
-    delete values.id;
+    delete values.idProduct;
     return values;
 }
 
-*/
+
 
 
 module.exports= Product;

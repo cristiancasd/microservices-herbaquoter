@@ -1,5 +1,6 @@
 const { response } = require("express");
 const { validationResult } = require("express-validator");
+const { RequestValidationError } = require("../errors/request-validation-errors");
 const { UploadFileError } = require("../errors/upload-file-error");
  
 const validateImageToUpload=(req,res=response, next)=>{
@@ -10,13 +11,27 @@ const validateImageToUpload=(req,res=response, next)=>{
 
 
         if(!req.files ){
-            const err= new UploadFileError('File dont exist,');
+            console.log('File dont exist')
+            //const err= new UploadFileError('File dont exist,');
+            const temp= [{
+                msg:'File dont exist',
+                param: 'archivo (form-data)'
+                }]
+               const err = new RequestValidationError(temp)
             return next(err)
+
         }
 
         const {archivo}=req.files;  
         if (Object.keys(req.files).length === 0 || !archivo) {
-            const err= new UploadFileError('File name archivo dont exist,');
+            console.log('File name archivo dont exist')
+
+            //const err= new UploadFileError('File name archivo dont exist,');
+            const temp= [{
+                msg:`File name 'archivo' dont exist`,
+                param: 'archivo (form-data)'
+                }]
+               const err = new RequestValidationError(temp);  
             return next(err)
         } 
 
@@ -25,11 +40,16 @@ const validateImageToUpload=(req,res=response, next)=>{
         const extension = dividedName[dividedName.length-1];
 
         if(!validExtensions.includes(extension)){
-            const err= new UploadFileError(`The extension must be ${validExtensions},`);
-            return next(err)
+            console.log(`The extension must be ${validExtensions},`)
+            //const err= new UploadFileError(`The extension must be ${validExtensions},`);
+            const temp= [{
+                msg:`The extension must be ${validExtensions}`,
+                param: 'archivo (form-data)'
+                }]
+               const err = new RequestValidationError(temp);          
+               return next(err)
         };
     }
-  
     next()
 }
 module.exports={

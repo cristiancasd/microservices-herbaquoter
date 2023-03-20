@@ -15,13 +15,13 @@ const router=Router();
 router.get('/', findAllQuoters);
 
 router.get('/default', findDefaultQuoters);
-
+ 
 router.get('/iduser/:idUser',[
     check('idUser', 'idUser must be UUID').isUUID(),
     validation
 ] ,findAllQuotersByUser);
 
-router.put('/edit/:id',[    
+router.put('/edit/:id',[     
     //validateJWTbackendNest,
     validateJwtLocally,
     check('id', 'id must be UUID').isUUID(),
@@ -46,11 +46,11 @@ router.post('/create',[
     createQuoter
 );
 
-router.get('/:id',[
+router.get('/findbyid/:id',[
     check('id', 'id UUID incorrect').isUUID(),
     quoterByIdExist,
     validation],
-findQuoter);
+findQuoter); 
 
 
 router.delete('/delete/:id',[
@@ -65,7 +65,7 @@ router.delete('/delete/:id',[
 router.delete('/deleteallbyuser/:idToDelete',[
     //validateJWTbackendNest,
     validateJwtLocally,
-    check('idToDelete', 'idUser must be UUID').isUUID(),
+    check('idToDelete', 'idToDelete must be UUID').isUUID(),
     quotersByUserExist,
     validation
 ] ,deletaAllByUser);
