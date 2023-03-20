@@ -145,7 +145,7 @@ const updateQuoter = async (req, res, next) => {
     const { id } = req.params;
     const data = req.body;
     const idUser = req.user.id
-    const userRole = req.user.rol
+    const userRole = req.user.rol 
 
     if (await titleQuoterByUserExist(data.title, idUser, id)) {
        // const err = new BadRequestError('Title already exist, try with other one, ')

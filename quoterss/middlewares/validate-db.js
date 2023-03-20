@@ -3,9 +3,11 @@ const { NotFoundError } = require("../errors/not-found-error");
 const Quoter = require("../src/models/Quoters");
 
 const quoterByIdExist= async (req,res,next)=>{
+    console.log('en quoterByIdExist')
     const errors= validationResult(req);
     if(errors.isEmpty()){
         const {id}=req.params;
+        console.log('id to change ', id)
         const quoterExists = await Quoter.findOne({where: {id: id}});
         if (!quoterExists){
             const err= new NotFoundError('Id quoter in DB');

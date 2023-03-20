@@ -7,9 +7,9 @@ module.exports = {
         bearerAuth: []
       },],
 
-      tags: ["Quoters CRUD"], // operation's tag.
-      description: "Edit a quoter by id", // operation's desc.
-      operationId: "updateQuoter", // unique operation id.
+      tags: ["Files CRUD"], // operation's tag.
+      description: "Edit a image by id", // operation's desc.
+      operationId: "updateImage", // unique operation id.
       parameters: [
         // expected params.
         {
@@ -26,9 +26,15 @@ module.exports = {
         // expected request body
         content: {
           // content-type
-          "application/json": {
+          "multipart/form-data": {
             schema: {
-              $ref: "#/components/schemas/quoterInput", // todo input data model
+              type: "object",
+              properties:{
+                archivo:{
+                  type: "string",
+                  format: "binary"
+                }
+              }
             },
           },
         },
@@ -42,17 +48,17 @@ module.exports = {
             // content-type
             "application/json": {
               schema: {
-                $ref: "#/components/responses/quoterResponse", // quoter model
+                $ref: "#/components/responses/updateImageResponse", // quoter model
               },
             },
           }, 
         },
-        500: {...errors.InternalServerError},
+        //500: {...errors.InternalServerError},
         400: {...errors.RequestValidationError},
         //400: {...errors.UploadFileError},
         401: {...errors.AuthError},
         403: {...errors.ForbidenError},
-        //404: {...errors.NotFoundError},
+        404: {...errors.NotFoundError},
         //503: {...errors.ServiceUnvailableError},
         //400: {...errors.UploadFileError},
       },

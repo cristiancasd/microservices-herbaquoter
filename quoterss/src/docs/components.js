@@ -80,48 +80,7 @@ module.exports = {
                 },
             },
 
-            
-
-            quoterResponse: {
-
-                type: "array", // data type
-                items: {
-
-
-                    type: "object", // data type
-                    properties: {
-                        id: {
-                            type: "string", // data-type
-                            description: "UUID number", // desc
-                            example: "e5f5e4cf-f8df-4b95-b56e-56b9b17398d5", // example of an id
-                        },
-                        title: {
-                            type: "string", // data-type
-                            description: "Quoter's title", // desc
-                            example: "Plan to low weight quickly", // example of a title
-                        },
-
-                        description: {
-                            type: "string", // data-type
-                            description: "Quoter's description", // desc
-                            example: "This plan have all products to get results", // example of a title
-                        },
-
-                        image: {
-                            type: "string", // data-type
-                            description: "Quoter's image URL", // desc
-                            example: "https://www.urlimage.com", // example of a title
-                        },
-                        products: {
-                            type: "array", // data type
-                            items: {
-                                "$ref": "#/components/schemas/productInput",
-                            }
-                        }
-                    },
-                }
-            },
-
+        
 
 
             // Product model
@@ -249,11 +208,81 @@ module.exports = {
                 },
             },
 
-           
+            quoterResponse: {
+
+                type: "array", // data type
+                items: {
+
+
+                    type: "object", // data type
+                    properties: {
+                        id: {
+                            type: "string", // data-type
+                            description: "UUID number", // desc
+                            example: "e5f5e4cf-f8df-4b95-b56e-56b9b17398d5", // example of an id
+                        },
+                        title: {
+                            type: "string", // data-type
+                            description: "Quoter's title", // desc
+                            example: "Plan to low weight quickly", // example of a title
+                        },
+
+                        description: {
+                            type: "string", // data-type
+                            description: "Quoter's description", // desc
+                            example: "This plan have all products to get results", // example of a title
+                        },
+
+                        image: {
+                            type: "string", // data-type
+                            description: "Quoter's image URL", // desc
+                            example: "https://www.urlimage.com", // example of a title
+                        },
+                        products: {
+                            type: "array", // data type
+                            items: {
+                                "$ref": "#/components/schemas/productInput",
+                            }
+                        }
+                    },
+                }
+            },
+
+            updateImageResponse: {
+
+                    type: "object", // data type
+                    properties: {
+                        id: {
+                            type: "string", // data-type
+                            description: "UUID number", // desc
+                            example: "e5f5e4cf-f8df-4b95-b56e-56b9b17398d5", // example of an id
+                        },
+                        title: {
+                            type: "string", // data-type
+                            description: "Quoter's title", // desc
+                            example: "Plan to low weight quickly", // example of a title
+                        },
+
+                        description: {
+                            type: "string", // data-type
+                            description: "Quoter's description", // desc
+                            example: "This plan have all products to get results", // example of a title
+                        },
+
+                        image: {
+                            type: "string", // data-type
+                            description: "Quoter's image URL", // desc
+                            example: "https://www.urlimage.com", // example of a title
+                        },
+                    },
+                
+            },
+
+            
 
 
 
-            BadRequestError: {
+            /*BadRequestError: {
                 type: "object", //data type
                 properties: {
                     errors: {
@@ -271,7 +300,7 @@ module.exports = {
                         }
                     }
                 }
-            },
+            },*/
             InternalServerError: {
                 type: "object", //data type
                 properties: {
@@ -396,7 +425,7 @@ module.exports = {
                 }
 
             },
-            UploadFileError: {
+            /*UploadFileError: {
                 type: "object", //data type
                 properties: {
                     errors: {
@@ -415,7 +444,7 @@ module.exports = {
                     }
                 }
 
-            },
+            },*/
         }
     },
 

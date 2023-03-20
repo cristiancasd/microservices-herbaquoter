@@ -6,6 +6,8 @@ const getById = require('./get-by-id');
 const getDefault = require('./get-default');
 const postCreate = require('./post-create');
 const updateQuoter = require('./update-quoter');
+const getDefaultImage = require('./get-default-image');
+const updateImage = require('./update-image');
 
 
 module.exports = {
@@ -21,5 +23,8 @@ module.exports = {
         '/api/quoters/edit/{id}':updateQuoter,
         '/api/quoters/delete/{id}':deleteQuoter,
         '/api/quoters/deleteallbyuser/{idToDelete}':deleteQuotersByUser,
+
+        '/api/files-quoters/find/{imageName}':getDefaultImage,
+        '/api/files-quoters/edit/{id}':updateImage,
     }
 }

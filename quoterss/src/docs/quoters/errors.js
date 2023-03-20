@@ -1,6 +1,6 @@
 
 const errors = {
-    BadRequestError: { //400
+    /*BadRequestError: { //400
         description: "Bad response server", // response desc.
         content: {
             // content-type
@@ -10,7 +10,7 @@ const errors = {
                 },
             },
         },
-    },
+    },*/
 
     InternalServerError: { //500
         description: "Internal server error", // response desc.
@@ -49,7 +49,7 @@ const errors = {
     },
 
     NotFoundError: { //404
-        description: "Not founded", // response desc.
+        description: "Not found", // response desc.
         content: {
             // content-type
             "application/json": {
@@ -82,7 +82,7 @@ const errors = {
             },
         },
     },
-    UploadFileError: { //400
+    /*UploadFileError: { //400
         description: "File error", // response desc.
         content: {
             // content-type
@@ -93,7 +93,7 @@ const errors = {
             },
         },
 
-    },
+    },*/
 
 }
 exports.errors = errors

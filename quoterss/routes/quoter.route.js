@@ -21,7 +21,7 @@ router.get('/iduser/:idUser',[
     validation
 ] ,findAllQuotersByUser);
 
-router.put('/edit/:id',[    
+router.put('/edit/:id',[     
     //validateJWTbackendNest,
     validateJwtLocally,
     check('id', 'id must be UUID').isUUID(),
@@ -50,7 +50,7 @@ router.get('/findbyid/:id',[
     check('id', 'id UUID incorrect').isUUID(),
     quoterByIdExist,
     validation],
-findQuoter);
+findQuoter); 
 
 
 router.delete('/delete/:id',[
