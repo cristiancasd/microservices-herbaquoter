@@ -29,7 +29,7 @@ app.use('/api/quoters',require('./routes/quoter.route'));
 //app.use('/api/users',require('./routes/user.route'));
 app.use('/api/files-quoters',require('./routes/uploads.route'));
 
-app.use('/api/doc/quoters',swaggerUI.serve,swaggerUI.setup(docs));
+app.use('/doc/quoters',swaggerUI.serve,swaggerUI.setup(docs)); 
 
 app.all('*', async (req, res,next) => {
     const err= new NotFoundError('Route ')
