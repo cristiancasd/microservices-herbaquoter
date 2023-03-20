@@ -5,19 +5,21 @@ const { check } = require('express-validator');
 const { validateImageToUpload } = require('../middlewares/validate-file-to-upload');
 const { validateJWTbackendNest } = require('../middlewares/validate-jwt-backend-nest');
 const { validateJwtLocally } = require('../middlewares/validate-jwt-locally');
+const { quoterByIdExist } = require('../middlewares/validate-db');
 
 const router=Router();
 
 router.get('/find/:imageName', getStaticImage);   
-
-router.put('/edit/:idQuoter',[
+ 
+router.put('/edit/:id',[
         //validateJWTbackendNest,
         validateJwtLocally,
-        check('idQuoter', 'id UUID incorrect').isUUID(),
+        check('id', 'id UUID incorrect').isUUID(),
+        quoterByIdExist,
         validateImageToUpload,
         validation],
     updateImage)
-
-    
+ 
+     
 
 module.exports= router;
