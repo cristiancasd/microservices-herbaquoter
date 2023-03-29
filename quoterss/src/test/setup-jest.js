@@ -7,7 +7,9 @@ const sequelize = require('../config/database');
 const Quoter = require('../models/Quoters');
 const Product = require('../models/Products');
 
-const  { testData }  =    require('../../static/testData/testData');
+//const  { testData }  =    require('../../src/static/testData/testData');
+const { testData } = require('../static/testData/testData');
+
 const { newJWT } = require('../../helpers/newJWT');
 const testDataPro=testData()
 const {quoterCorrect, quoterCorrect2, quoterCorrect3, quoterCorrect4, quoterBadWithoutTitle,quoterBadWithoutImage,quoterWithProductArrayBad }=testDataPro

@@ -17,10 +17,10 @@ const sequelize = require('../../src/config/database');
 const Quoter = require('../../src/models/Quoters');
 const Product = require('../../src/models/Products');
 
-const { initialData } = require('../../static/data/quoters-data');
+const { initialData } = require('../../src/static/data/quoters-data');
 
 
-const  { testData }  =    require('../../static/testData/testData');
+const  { testData }  =    require('../../src/static/testData/testData');
 const testDataPro=testData()
 const {quoterCorrect, quoterCorrect2, quoterCorrect3, quoterCorrect4,quoterCorrect5, quoterBadWithoutTitle,quoterBadWithoutImage,quoterWithProductArrayBad }=testDataPro
 

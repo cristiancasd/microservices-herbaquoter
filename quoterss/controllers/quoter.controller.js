@@ -1,6 +1,6 @@
 require('colors');
 const { titleQuoterByUserExist } = require('../helpers/dbFinder');
-const { initialData } = require('../static/data/quoters-data');
+const { initialData } = require('../src/static/data/quoters-data');
 const { deleteImageCloudinary, } = require('../helpers/imageManage');
 const { validation } = require('../middlewares/validation');
 const { validationResult } = require('express-validator');
