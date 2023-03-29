@@ -6,7 +6,7 @@ const { errorHandler } = require('./middlewares/error-handler');
 const { NotFoundError } = require('./errors/not-found-error');
 
 const swaggerUI = require("swagger-ui-express");
-const docs = require('./src/docs');
+const docs = require('./docs');
 
 
 

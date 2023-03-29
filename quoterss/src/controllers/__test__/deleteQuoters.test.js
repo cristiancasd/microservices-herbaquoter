@@ -5,17 +5,17 @@ const path= require('path')
 const axios= require('axios')
 const { app } = require('../../app');
 
-const sequelize = require('../../src/config/database');
-const Quoter = require('../../src/models/Quoters');
-const Product = require('../../src/models/Products');
+const sequelize = require('../../config/database');
+const Quoter = require('../../models/Quoters');
+const Product = require('../../models/Products');
 
-const { initialData } = require('../../src/static/data/quoters-data');
-const  { testData }  =    require('../../src/static/testData/testData');
+const { initialData } = require('../../static/data/quoters-data');
+const  { testData }  =    require('../../static/testData/testData');
 
 const testDataPro=testData()
 const {quoterCorrect, quoterCorrect2, quoterCorrect3, quoterCorrect4, quoterCorrect5, quoterBadWithoutTitle,quoterBadWithoutImage,quoterWithProductArrayBad }=testDataPro
 
-const { adminData, idQuoterAdminData, userData, tokens } = require('../../src/test/setup-jest');
+const { adminData, idQuoterAdminData, userData, tokens } = require('../../test/setup-jest');
 
 const randomUUID='c16ca228-cef4-453d-b007-7e2383eb894f';
 

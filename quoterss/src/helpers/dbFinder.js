@@ -1,5 +1,5 @@
 
-const Quoter = require("../src/models/Quoters");
+const Quoter = require("../models/Quoters");
 const sequelize = require('sequelize');
 const { Op } = require("sequelize");
 

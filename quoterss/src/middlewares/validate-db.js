@@ -1,6 +1,6 @@
 const { validationResult } = require("express-validator");
 const { NotFoundError } = require("../errors/not-found-error");
-const Quoter = require("../src/models/Quoters");
+const Quoter = require("../models/Quoters");
 
 const quoterByIdExist= async (req,res,next)=>{
     console.log('en quoterByIdExist')

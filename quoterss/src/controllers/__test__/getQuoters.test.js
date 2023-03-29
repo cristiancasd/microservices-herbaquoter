@@ -5,19 +5,19 @@ const path= require('path')
 const axios= require('axios')
 const { app } = require('../../app');
 
-const sequelize = require('../../src/config/database');
-const Quoter = require('../../src/models/Quoters');
-const Product = require('../../src/models/Products');
+const sequelize = require('../../config/database');
+const Quoter = require('../../models/Quoters');
+const Product = require('../../models/Products');
 
-const { initialData } = require('../../src/static/data/quoters-data');
-const  { testData }  =    require('../../src/static/testData/testData');
+const { initialData } = require('../../static/data/quoters-data');
+const  { testData }  =    require('../../static/testData/testData');
 const testDataPro=testData()
 const {quoterCorrect, quoterCorrect2, quoterCorrect3, quoterCorrect4, quoterBadWithoutTitle,quoterBadWithoutImage,quoterWithProductArrayBad }=testDataPro
 
 const { adminData, 
    tokens,
    //idQuoterAdminData,
- } = require('../../src/test/setup-jest');
+ } = require('../../test/setup-jest');
 
 const randomUUID='c16ca228-cef4-453d-b007-7e2383eb894f';
 
@@ -65,11 +65,16 @@ describe('GET QUOTER BY USER /api/quoters/idQuoter', () =>{
         await globalCreateQuoter(quoterCorrect2, tokenAdmin);
         let admin=   adminData();
 
-        console.log(' 888888888888888888', tokenAdmin, admin)
+        //console.log(' 888888888888888888', tokenAdmin, admin)
 
         const response= await request(app).get('/api/quoters/iduser/'+admin.id).send();
         expect(response.statusCode).toBe(200);
         expect(response.body).toBeInstanceOf(Array);
+
+        console.log('****************')
+        console.log('response.body', response.body)
+        console.log('****************')
+
         expect(response.body[0].id).toBeDefined();
         expect(response.body[0].title).toBeDefined();
         expect(response.body[0].description).toBeDefined();

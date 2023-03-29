@@ -2,8 +2,8 @@ const { join } = require('path')
 const fs = require('fs')
 
 
-const Product = require("../src/models/Products");
-const Quoter = require('../src/models/Quoters');
+const Product = require("../models/Products");
+const Quoter = require('../models/Quoters');
 
 const { deleteImageCloudinary, saveImageOnCloudinary } = require('../helpers/imageManage');
 const { NotFoundError } = require('../errors/not-found-error');
@@ -13,7 +13,7 @@ const { InternalServerError } = require('../errors/internal-server-error');
 const getStaticImage = async (req, res, next) => {
     const { imageName } = req.params;
     console.log('image name is ', imageName)
-    let pathImagen = join(__dirname, '../src/static/images', imageName)
+    let pathImagen = join(__dirname, '../static/images', imageName)
     return (fs.existsSync(pathImagen))
         ? res.sendFile(pathImagen)
         //: res.status(400).json({ message: 'Image dont exists' });

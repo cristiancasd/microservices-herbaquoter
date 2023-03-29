@@ -1,14 +1,14 @@
 require('colors');
 const { titleQuoterByUserExist } = require('../helpers/dbFinder');
-const { initialData } = require('../src/static/data/quoters-data');
+const { initialData } = require('../static/data/quoters-data');
 const { deleteImageCloudinary, } = require('../helpers/imageManage');
 const { validation } = require('../middlewares/validation');
 const { validationResult } = require('express-validator');
 const { ForbidenError } = require('../errors/forbidden-error');
 const { BadRequestError } = require('../errors/bad-request-error');
  
-const Product = require("../src/models/Products");
-const Quoter = require('../src/models/Quoters');
+const Product = require("../models/Products");
+const Quoter = require('../models/Quoters');
 const { RequestValidationError } = require('../errors/request-validation-errors');
 const { InternalServerError } = require('../errors/internal-server-error');
 
@@ -40,8 +40,8 @@ const findQuoter = async (req, res) => {
     });
     res.status(200).json(quoter);
     }catch(err){
-        console.log('el error es ', err)
-        const error = new InternalServerError(error+', ')
+        //console.log('el error es ', err)
+        const error = new InternalServerError(err+', ')
         return next(error)
     }
     
@@ -57,8 +57,8 @@ const findAllQuoters = async (req, res) => {
         });
         res.status(200).json(quoters);
     }catch(err){
-        console.log('el error es ', err)
-        const error = new InternalServerError(error+', ')
+        //console.log('el error es ', err)
+        const error = new InternalServerError(err+', ')
         return next(error)
     }
     
@@ -79,7 +79,7 @@ const findAllQuotersByUser = async (req, res, next) => {
         res.status(200).json(quoters);
 
     }catch(err){
-        console.log('el error en all quoters by user es ', err)
+        //console.log('el error en all quoters by user es ', err)
         const error = new InternalServerError(error+', ')
         return next(error)
     }
@@ -234,7 +234,7 @@ const updateQuoter = async (req, res, next) => {
     )
    }catch(err){
        console.log('el error en all quoters by user es ', err)
-       const error = new InternalServerError(error+', ')
+       const error = new InternalServerError(err+', ')
        return next(error)
    }
 
@@ -261,7 +261,7 @@ const deleteQuoter = async (req, res, next) => {
         res.json({ message: 'delete ok', id })
     }catch(err){
         console.log('el error en all quoters by user es ', err)
-        const error = new InternalServerError(error+', ')
+        const error = new InternalServerError(err+', ')
         return next(error)
     }
     
