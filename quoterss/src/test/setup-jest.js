@@ -3,9 +3,9 @@ const request = require('supertest');
 const { app } = require('../app');
 const axios= require('axios')
 
-const sequelize = require('../config/database');
-const Quoter = require('../models/Quoters');
-const Product = require('../models/Products');
+const sequelize = require('../database/config');
+const Quoter = require('../quoter/Quoters');
+const Product = require('../quoter/Products');
 
 //const  { testData }  =    require('../../static/testData/testData');
 const { testData } = require('../static/testData/testData');

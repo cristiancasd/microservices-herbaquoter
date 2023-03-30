@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { getStaticImage, updateImage } = require('../controllers/uploads.controller');
+const { getStaticImage, updateImage } = require('./uploads.controller');
 const { validation } = require('../middlewares/validation');
 const { check } = require('express-validator');
 const { validateImageToUpload } = require('../middlewares/validate-file-to-upload');

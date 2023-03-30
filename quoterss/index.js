@@ -4,7 +4,8 @@ require ('dotenv').config()
 
 const { app } = require('./src/app');
 
-const sequelize = require('./src/config/database');
+//const sequelize = require('./src/config/database');
+const sequelize = require('./src/database/config');
 
 
 const start= async()=>{

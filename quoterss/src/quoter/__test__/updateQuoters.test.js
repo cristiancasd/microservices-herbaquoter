@@ -5,9 +5,9 @@ const path= require('path')
 const axios= require('axios')
 const { app } = require('../../app');
 
-const sequelize = require('../../config/database');
-const Quoter = require('../../models/Quoters');
-const Product = require('../../models/Products');
+//const sequelize = require('../../database/config');
+const Quoter = require('../Quoters');
+const Product = require('../Products');
 
 const { initialData } = require('../../static/data/quoters-data');
 const  { testData }  =    require('../../static/testData/testData');

@@ -5,9 +5,9 @@ const path= require('path')
 const axios= require('axios')
 const { app } = require('../../app');
 
-const sequelize = require('../../config/database');
-const Quoter = require('../../models/Quoters');
-const Product = require('../../models/Products');
+//const sequelize = require('../../database/config');
+const Quoter = require('../Quoters');
+const Product = require('../Products');
 
 const { initialData } = require('../../static/data/quoters-data');
 const  { testData }  =    require('../../static/testData/testData');
@@ -65,14 +65,14 @@ describe('GET QUOTER BY USER /api/quoters/idQuoter', () =>{
         await globalCreateQuoter(quoterCorrect2, tokenAdmin);
         let admin=   adminData();
 
-        //console.log(' 888888888888888888', tokenAdmin, admin)
+        console.log(' 888888888888888888', tokenAdmin, admin)
 
         const response= await request(app).get('/api/quoters/iduser/'+admin.id).send();
         expect(response.statusCode).toBe(200);
         expect(response.body).toBeInstanceOf(Array);
 
         console.log('****************')
-        console.log('response.body', response.body)
+        console.log('response.body',)
         console.log('****************')
 
         expect(response.body[0].id).toBeDefined();

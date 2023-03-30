@@ -1,5 +1,5 @@
 const Sequelize=require('sequelize');
-const sequelize=require('../config/database');
+const sequelize=require('../database/config');
 const Quoter = require('./Quoters');
 
 const Model= Sequelize.Model;

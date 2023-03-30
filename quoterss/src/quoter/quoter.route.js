@@ -2,7 +2,7 @@ require('express-validator');
 const { Router } = require("express");
 const { validation } = require('../middlewares/validation');
 const { check } = require('express-validator');
-const { findAllQuoters, createQuoter, updateQuoter, deleteQuoter, findQuoter, findAllQuotersByUser, findDefaultQuoters, deletaAllByUser } = require('../controllers/quoter.controller');
+const { findAllQuoters, createQuoter, updateQuoter, deleteQuoter, findQuoter, findAllQuotersByUser, findDefaultQuoters, deletaAllByUser } = require('./quoter.controller');
 //const { quoterByIdExists, quotersByUserExists } = require('../helpers/db-validators');
 const { validateJWTbackendNest } = require('../middlewares/validate-jwt-backend-nest');
 //const { validRoles } = require('../middlewares/validate-roles');

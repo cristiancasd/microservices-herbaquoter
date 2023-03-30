@@ -7,8 +7,8 @@ const { validationResult } = require('express-validator');
 const { ForbidenError } = require('../errors/forbidden-error');
 const { BadRequestError } = require('../errors/bad-request-error');
  
-const Product = require("../models/Products");
-const Quoter = require('../models/Quoters');
+const Product = require("./Products");
+const Quoter = require('./Quoters');
 const { RequestValidationError } = require('../errors/request-validation-errors');
 const { InternalServerError } = require('../errors/internal-server-error');
 

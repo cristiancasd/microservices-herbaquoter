@@ -25,9 +25,12 @@ app.use(fileUpload({
         
 
 //routes
-app.use('/api/quoters',require('./routes/quoter.route'));
+//app.use('/api/quoters',require('./routes/quoter.route'));
+app.use('/api/quoters',require('./quoter/quoter.route'));
+
 //app.use('/api/users',require('./routes/user.route'));
-app.use('/api/files-quoters',require('./routes/uploads.route'));
+//app.use('/api/files-quoters',require('./files/uploads.route'));
+app.use('/api/files-quoters',require('./files/uploads.route'));
 
 app.use('/doc/quoters',swaggerUI.serve,swaggerUI.setup(docs)); 
 

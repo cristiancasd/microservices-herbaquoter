@@ -1,7 +1,7 @@
 require('dotenv').config();
 
 const Sequelize=require('sequelize');
-const sequelize=require('../config/database');
+const sequelize=require('../database/config');
 const Model= Sequelize.Model;
 
 

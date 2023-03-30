@@ -2,8 +2,8 @@ const { join } = require('path')
 const fs = require('fs')
 
 
-const Product = require("../models/Products");
-const Quoter = require('../models/Quoters');
+const Product = require("../quoter/Products");
+const Quoter = require('../quoter/Quoters');
 
 const { deleteImageCloudinary, saveImageOnCloudinary } = require('../helpers/imageManage');
 const { NotFoundError } = require('../errors/not-found-error');
