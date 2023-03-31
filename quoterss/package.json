@@ -8,7 +8,9 @@
     "start:dev": "cross-env NODE_ENV=development nodemon index",
     "test": "cross-env NODE_ENV=test2 jest --verbose --silent --detectOpenHandles",
     "test:ci": "cross-env NODE_ENV=test2 jest --detectOpenHandles",
-    "testcriss": "cross-env NODE_ENV=test2 jest --verbose --detectOpenHandles",
+    "testcriss": "cross-env NODE_ENV=test2 jest --verbose --silent --detectOpenHandles",
+    "testcriss2": "cross-env NODE_ENV=test2 jest --verbose --detectOpenHandles --watch",
+
     "test:match": "npm run test --watch"
   },
   "keywords": [],

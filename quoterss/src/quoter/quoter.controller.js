@@ -1,5 +1,5 @@
 require('colors');
-const { titleQuoterByUserExist } = require('../helpers/dbFinder');
+const { titleQuoterByUserExist } = require('./utils/dbFinder');
 const { initialData } = require('../static/data/quoters-data');
 const { deleteImageCloudinary, } = require('../helpers/imageManage');
 const { validation } = require('../middlewares/validation');
