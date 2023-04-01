@@ -17,7 +17,7 @@ const titleQuoterByUserExist = async (title, idUser, idQuoter = undefined) => {
         )},
         { idUser }
       ]
-    }
+    } 
     });
 
   if (!idQuoter)

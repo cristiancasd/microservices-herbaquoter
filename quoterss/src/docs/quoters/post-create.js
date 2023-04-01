@@ -32,7 +32,7 @@ module.exports = {
             // content-type
             "application/json": {
               schema: {
-                $ref: "#/components/schemas/quoterResponse", // quoter model
+                $ref: "#/components/responses/quoterResponse", // quoter model
               },
             },
           }, 

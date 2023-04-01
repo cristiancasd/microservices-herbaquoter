@@ -58,7 +58,7 @@ const globalCreateQuoter = async (quot, token) => {
 
 
 beforeAll(async () => {
-
+ 
     await sequelize.sync();
 
 

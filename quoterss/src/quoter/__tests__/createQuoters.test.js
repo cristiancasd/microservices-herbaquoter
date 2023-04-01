@@ -1,8 +1,8 @@
 const request = require('supertest');
 
 
-const path= require('path')
-const axios= require('axios')
+const path= require('path');
+const axios= require('axios');
 const { app } = require('../../app');
 
 //const sequelize = require('../../database/config');
@@ -62,10 +62,8 @@ describe('POST /api/quoters/create - Error when send bad data', () =>{
        expect(quoterDB[0].products[0].quantity).toEqual(quoterCorrect5.products[0].quantity);
    })
 
-   //todo: title repetitive include default quoters
 
-   //todo: implement dont care upercases
-   it('bada data (title already exist) should respond with a 400 status code', async()=>{
+   it('bad data (title already exist) should respond with a 400 status code', async()=>{
              const {tokenUser, tokenAdmin}=  tokens();
 
        await globalCreateQuoter(quoterCorrect, tokenAdmin);

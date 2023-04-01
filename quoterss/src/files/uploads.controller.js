@@ -42,29 +42,7 @@ const updateImage = async (req, res, next) => {
             return next(err)
     }
 
-    /*if (!quoter) {
-        const err = new Error(`Quoter with id ${idQuoter} don't exist`)
-        err.reasons = [{ message: `Quoter with id ${idQuoter} don't exist` }]
-        err.status = 400
-        console.log('quoter no encontrado')
-        return next(err)
-        return res.status(400).json({
-            message: `Quoter with id ${idQuoter} don't exist`
-        });
-    }
-    console.log('quoter encontrado')*/
-
-
-
-   /* if (userRole === 'user')
-        if (idUser != quoter.idUser) {
-            const err = new Error('You cannot change a quoter of other user')
-            err.reasons = [{ message: 'You cannot change a quoter of other user' }]
-            err.status = 403
-            return next(err)
-            return res.status(400).json({ message: 'You cannot change a quoter of other user' });
-
-    }*/
+    
 
 
     try{

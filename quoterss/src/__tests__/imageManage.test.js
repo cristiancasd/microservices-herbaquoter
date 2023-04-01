@@ -2,7 +2,7 @@ const { saveImageOnCloudinary, deleteImageCloudinary } = require("../helpers/ima
 const cloudinary = require('cloudinary').v2;
 cloudinary.config(process.env.CLOUDINARY_URL);
 
-
+ 
 describe('Pruebas en saveImageOnCloudinary', () => {
 
     test('must upload image to cloudinary', async() => {
