@@ -32,3 +32,4 @@ jobs:
           DB_PASSWORD: postgres #DB password
           DB_PORT_TEST: 5432
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          CLOUDINARY_URL: ${{ secrets.CLOUDINARY_URL }}
