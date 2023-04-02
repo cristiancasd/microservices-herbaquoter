@@ -1,47 +1,42 @@
-require ('dotenv').config();
-require('colors')
-require ('dotenv').config()
+require('dotenv').config();
+require('colors');
+require('dotenv').config();
 
 const { app } = require('./src/app');
 
 //const sequelize = require('./src/config/database');
 const sequelize = require('./src/database/config');
 
+const start = async () => {
+  if (!process.env.PORT) {
+    console.log('no hay puerto ');
+    throw new Error('JWT_KEY must be defined');
+  }
 
-const start= async()=>{
+  const port = process.env.PORT;
 
-    
-    if (!process.env.PORT) {        
-        console.log('no hay puerto ')
-        throw new Error('JWT_KEY must be defined');
+  let wrongConnection = true;
+  while (wrongConnection) {
+    try {
+      console.log('voy a intentar conectar GitAction 3');
+      await sequelize.sync();
+      console.log('conectado a la db'.yellow);
+      wrongConnection = false;
+    } catch (error) {
+      console.log('error conectand a la db'.red);
+      //console.log(error)
+      await sleep(3000);
+      function sleep(ms) {
+        return new Promise((resolve) => {
+          setTimeout(resolve, ms);
+        });
+      }
     }
+  }
 
-    const port= process.env.PORT;
+  app.listen(port, () => {
+    console.log('servidor corriendo en port ', port);
+  });
+};
 
-    let wrongConnection=true
-    while(wrongConnection){
-        
-            try{
-                console.log('voy a intentar conectar GitAction 3')
-                await sequelize.sync();
-                console.log('conectado a la db'.yellow)
-                wrongConnection=false;
-            }catch(error){
-                console.log('error conectand a la db'.red);
-                //console.log(error)
-                await sleep(3000)
-                function sleep(ms) {
-                return new Promise((resolve) => {
-                    setTimeout(resolve, ms);
-                });
-}
-            }
- 
-    }
-    
-    app.listen(port, ()=>{
-        console.log('servidor corriendo en port ', port)
-    })
-}
-
-start()
+start();

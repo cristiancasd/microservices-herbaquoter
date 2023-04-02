@@ -291,7 +291,7 @@ export const startDeleteProduct=(idProductToDelete)=>{
 }
 
 export const startUploadingFiles = (files=[], activeProduct, ) => {
-
+ 
 
     const formData=new FormData();
     formData.append('file',files[0]);
