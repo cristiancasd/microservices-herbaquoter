@@ -26,8 +26,7 @@ const findDefaultQuoters = (req, res) => {
   res.status(200).json(quotersInitial);
 };
 
-const findQuoter =
- async (req, res) => {
+const findQuoter = async (req, res) => {
   try {
     const { id } = req.params;
     const quoter = await Quoter.findAll({
@@ -42,8 +41,7 @@ const findQuoter =
   }
 };
 
-const findAllQuoters =
- async (req, res) => {
+const findAllQuoters = async (req, res) => {
   try {
     const quoters = await Quoter.findAll({
       include: [
@@ -61,8 +59,7 @@ const findAllQuoters =
   }
 };
 
-const findAllQuotersByUser = 
-async (req, res, next) => {
+const findAllQuotersByUser = async (req, res, next) => {
   const { idUser } = req.params;
   //console.log('voy a traer los quoters para el user ', idUser)
 
