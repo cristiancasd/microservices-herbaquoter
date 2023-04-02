@@ -28,7 +28,7 @@ const updateImage = async (req, res, next) => {
 
   const quoterDb = await Quoter.findAll({
     where: { $id$: idQuoter },
-    // include: [{ model: Product, as: 'products', }]
+    include: [{ model: Product, as: 'products', }]
   });
 
   const quoter = quoterDb[0];
@@ -51,7 +51,7 @@ const updateImage = async (req, res, next) => {
     console.log('listo, imagen upsert');
 
     quoter.image = secure_url;
-    console.log('quoter.image', quoter);
+    //console.log('quoter.image', quoter);
     res.json(quoter);
   } catch (err) {
     console.log('el error es ', err);

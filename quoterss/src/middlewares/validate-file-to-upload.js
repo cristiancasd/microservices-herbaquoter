@@ -6,8 +6,8 @@ const { UploadFileError } = require('../errors/upload-file-error');
 const validateImageToUpload = (req, res = response, next) => {
   const errors = validationResult(req);
   if (errors.isEmpty()) {
-    console.log('estoy en validateImageToUpload');
-    console.log('validateImageToUpload req.files', req.files);
+    //console.log('estoy en validateImageToUpload');
+    //console.log('validateImageToUpload req.files', req.files);
 
     if (!req.files) {
       console.log('File dont exist');
