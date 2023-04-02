@@ -291,7 +291,7 @@ export const startDeleteProduct=(idProductToDelete)=>{
 }
 
 export const startUploadingFiles = (files=[], activeProduct, ) => {
-
+ 
 
     const formData=new FormData();
     formData.append('file',files[0]);
@@ -414,7 +414,8 @@ export const startUploadingImageQuoter=(files=[], products=[])=>{
         formData.append('archivo',files[0]);
         try{
             const {data} = await quoterApiNode.put('/files-quoters/edit/'+activeQuoter.id, formData);
-            
+            console.log('******* data update image');
+            console.log('*******', data)
             const quoterAdapted= adapteQuoter(data, products)
             dispatch(setActiveQuoter(quoterAdapted))
             dispatch(setActiveQuoterToEdit({title:quoterAdapted.title, description:quoterAdapted.description}))  
@@ -427,6 +428,9 @@ export const startUploadingImageQuoter=(files=[], products=[])=>{
         }catch(error){
             const messageError= existQuoterError(error);
             dispatch(onErrorMessage(messageError));
+            console.log(' --- 999999 error update image');
+            console.log('---- 999999', error)
+
             setTimeout(()=>{
                 dispatch(clearErrorMessage());
             },10);
@@ -434,7 +438,6 @@ export const startUploadingImageQuoter=(files=[], products=[])=>{
         dispatch(communicatingBackend(false));
     }
 }
-
 
 export const startExecuteSeed=(quotersDefault)=>{
     return async (dispatch) =>{

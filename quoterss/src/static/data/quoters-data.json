@@ -1,0 +1,68 @@
+{
+  "loseweight": [
+    {
+      "id": "loseweight-minimum",
+      "title": "Lose-Minimum",
+      "description": "",
+      "products": [
+        {
+          "sku": "0146",
+          "quantity": 2
+        },
+        {
+          "sku": "2870",
+          "quantity": 1
+        }
+      ],
+      "image": "loseweight-minimum.jpg"
+    },
+    {
+      "id": "loseweight-medium",
+      "title": "Lose-Medium",
+      "description": "",
+      "products": [
+        {
+          "sku": "0146",
+          "quantity": 2
+        },
+        {
+          "sku": "2870",
+          "quantity": 1
+        },
+        {
+          "sku": "0006",
+          "quantity": 1
+        }
+      ],
+      "image": "loseweight-medium.jpg"
+    },
+    {
+      "id": "loseweight-full",
+      "title": "Lose-Full",
+      "description": "",
+      "products": [
+        {
+          "sku": "0146",
+          "quantity": 2
+        },
+        {
+          "sku": "2870",
+          "quantity": 1
+        },
+        {
+          "sku": "0006",
+          "quantity": 1
+        },
+        {
+          "sku": "2864",
+          "quantity": 1
+        },
+        {
+          "sku": "2863",
+          "quantity": 1
+        }
+      ],
+      "image": "loseweight-full.jpg"
+    }
+  ]
+}

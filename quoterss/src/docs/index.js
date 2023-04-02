@@ -4,17 +4,13 @@ const tags = require('./tags');
 const components = require('./components');
 const quoters = require('./quoters');
 
-
-
-
-
 module.exports = {
-    ...basicInfo,
-    ...servers,
-    ...tags,
-    ...components,
-    ...quoters,
-    /*security:{
+  ...basicInfo,
+  ...servers,
+  ...tags,
+  ...components,
+  ...quoters,
+  /*security:{
      bearerAuth: []   
 }*/
 };
