@@ -1,34 +1,36 @@
-const { errors } = require("./errors");
+const { errors } = require('./errors');
 
 module.exports = {
-    // method of operation
-    delete: {
-      security:[{
-        bearerAuth: []
-      },],
+  // method of operation
+  delete: {
+    security: [
+      {
+        bearerAuth: [],
+      },
+    ],
 
-      tags: ["Quoters CRUD"], // operation's tag.
-      description: "Delete all quoters for user id", // operation's desc.
-      operationId: "deleteQuoterByUser", // unique operation id.
-      parameters: [
-        // expected params.
-        {
-          name: "idToDelete", // name of the param
-          in: "path", // location of the param
-          schema: {
-            $ref: "#/components/schemas/id", // data model of the param
-          },
-          required: true, // Mandatory param
-          description: "quoter UUID id to delete", // param desc.
+    tags: ['Quoters CRUD'], // operation's tag.
+    description: 'Delete all quoters for user id', // operation's desc.
+    operationId: 'deleteQuoterByUser', // unique operation id.
+    parameters: [
+      // expected params.
+      {
+        name: 'idToDelete', // name of the param
+        in: 'path', // location of the param
+        schema: {
+          $ref: '#/components/schemas/id', // data model of the param
         },
-      ], // expected params.
-     
-      // expected responses
-      responses: {
-        // response code
-        200: {
-          description: "Quoter deleted", // response desc.
-          /*content: {
+        required: true, // Mandatory param
+        description: 'quoter UUID id to delete', // param desc.
+      },
+    ], // expected params.
+
+    // expected responses
+    responses: {
+      // response code
+      200: {
+        description: 'Quoter deleted', // response desc.
+        /*content: {
             // content-type
             "application/json": {
               schema: {
@@ -36,17 +38,16 @@ module.exports = {
               },
             },
           }, */
-        },
-
-
-        500: {...errors.InternalServerError},
-        //400: {...errors.RequestValidationError},
-        //400: {...errors.UploadFileError},
-        //401: {...errors.AuthError},
-        403: {...errors.ForbidenError},
-        404: {...errors.NotFoundError},
-        //503: {...errors.ServiceUnvailableError},
-        //400: {...errors.UploadFileError},
       },
+
+      500: { ...errors.InternalServerError },
+      //400: {...errors.RequestValidationError},
+      //400: {...errors.UploadFileError},
+      //401: {...errors.AuthError},
+      403: { ...errors.ForbidenError },
+      404: { ...errors.NotFoundError },
+      //503: {...errors.ServiceUnvailableError},
+      //400: {...errors.UploadFileError},
     },
-  };
+  },
+};

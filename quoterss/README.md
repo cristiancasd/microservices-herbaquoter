@@ -5,14 +5,13 @@
 # Herba DB - nodeJS
 
 1. Clone project
-2. ```npm install```
-3. Change the file ```.env.template``` rename to ```.env```
+2. `npm install`
+3. Change the file `.env.template` rename to `.env`
 4. Change the envoronment variables
 5. Launch the data base
 
 ```
 docker-compose up -d
 ```
-6. run: ```npm start```
 
-
+6. run: `npm start`
