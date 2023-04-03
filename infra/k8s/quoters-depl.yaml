@@ -1,4 +1,4 @@
-apiVersion: apps/v1
+apiVersion: apps/v1 
 kind: Deployment
 metadata:
   name: quoters-depl
@@ -16,10 +16,8 @@ spec:
         - name: quoters
           image: cristiancasd/herbaquoter-quoters  
           env:
-#            - name: MONGO_URI
-#              value: 'postgresdb://quoters-postgres-srv:5432/quoters'
             - name: DB_PASSWORD
-              value: 1389!DJ12nddcsvcds@w1
+              value: '1389!DJ12nddcsvcds@w1'
 
             - name: DB_NAME
               value: 'quoters-postgres'
@@ -32,10 +30,6 @@ spec:
 
             - name: DB_USERNAME
               value: 'postgres'
-              #value: 'postgres'
-
-            #- name: JWT_SECRET
-            #  value: 'passJWT3w125CriAHerb'
 
             - name: JWT_SECRET
               valueFrom:
@@ -62,12 +56,12 @@ spec:
             - name: STAGE
               value: 'prod'
 
-            - name: AXIOS_URL_BACKEND_USERS_DEV
-              value: 'http://auth-products-srv:3009/api/auth/check-renew-token'
+            #- name: AXIOS_URL_BACKEND_USERS_DEV
+            #  value: 'http://auth-products-srv:3009/api/auth/check-renew-token'
 
-            - name: AXIOS_URL_BACKEND_USERS
-              value: 'http://www.herbaquoter.online/api/auth/check-renew-token'
-              #value: 'http://auth-products-srv:3009/api/auth/check-renew-token'
+            #- name: AXIOS_URL_BACKEND_USERS
+              #value: 'http://www.herbaquoter.online/api/auth/check-renew-token'
+              ##value: 'http://auth-products-srv:3009/api/auth/check-renew-token'
 
 
 ---

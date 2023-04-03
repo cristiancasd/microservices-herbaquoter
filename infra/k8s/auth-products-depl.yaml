@@ -1,4 +1,4 @@
-apiVersion: apps/v1
+apiVersion: apps/v1 
 kind: Deployment
 metadata:
   name: auth-products-depl
@@ -16,10 +16,8 @@ spec:
         - name: auth-products
           image: cristiancasd/herbaquoter-auth-products  
           env:
-#            - name: MONGO_URI
-#              value: 'postgresdb://auth-products-postgres-srv:5432/auth-products'
             - name: DB_PASSWORD
-              value: 1389!DJ12nddcsvcds@w1
+              value: '1389!DJ12nddcsvcds@w1'
 
             - name: DB_NAME
               value: 'auth-products-postgres'

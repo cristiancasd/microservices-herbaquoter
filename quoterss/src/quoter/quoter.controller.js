@@ -2,10 +2,7 @@ require('colors');
 const { titleQuoterByUserExist } = require('./utils/dbFinder');
 const { initialData } = require('../static/data/quoters-data');
 const { deleteImageCloudinary } = require('../helpers/imageManage');
-const { validation } = require('../middlewares/validation');
-const { validationResult } = require('express-validator');
 const { ForbidenError } = require('../errors/forbidden-error');
-const { BadRequestError } = require('../errors/bad-request-error');
 
 const Product = require('./Products');
 const Quoter = require('./Quoters');
@@ -15,14 +12,13 @@ const { InternalServerError } = require('../errors/internal-server-error');
 const findDefaultQuoters = (req, res) => {
   const loseweight = initialData();
   const quotersInitial = loseweight.map((quoter) => {
-    const baseUrl = process.env.STAGE === 'dev' ? process.env.HOST_API : process.env.HOST_API_PROD;
-
+  const baseUrl = process.env.STAGE === 'dev' ? process.env.HOST_API : process.env.HOST_API_PROD;
+    
     return {
       ...quoter,
       image: baseUrl + '/files-quoters/find/' + quoter.image,
     };
   });
-  //console.log('---------------- }',quotersInitial )
   res.status(200).json(quotersInitial);
 };
 
@@ -61,15 +57,12 @@ const findAllQuoters = async (req, res) => {
 
 const findAllQuotersByUser = async (req, res, next) => {
   const { idUser } = req.params;
-  //console.log('voy a traer los quoters para el user ', idUser)
 
   try {
     const quoters = await Quoter.findAll({
       where: { idUser },
-      //where: { '$idUser$': idUser },
       include: [{ model: Product, as: 'products' }],
     });
-    //console.log('la respuesta de all quoters by user es  ', quoters)
     res.status(200).json(quoters);
   } catch (err) {
     //console.log('el error en all quoters by user es ', err)
@@ -81,9 +74,7 @@ const findAllQuotersByUser = async (req, res, next) => {
 const createQuoter = async (req, res, next) => {
   const { title, description = '', image = '', products = [] } = req.body;
   const idUser = req.user.id;
-  console.log('creating quoter to id: ', idUser);
   if (await titleQuoterByUserExist(title, idUser)) {
-    //const err = new BadRequestError('Title already exist, try with other one, ')
     const temp = [
       {
         msg: 'Title already exist, try with other one',
@@ -93,8 +84,6 @@ const createQuoter = async (req, res, next) => {
     const err = new RequestValidationError(temp);
     return next(err);
   }
-
-  //console.log('voy a constuir la data')
 
   const data = {
     title,
@@ -122,8 +111,7 @@ const createQuoter = async (req, res, next) => {
     });
     res.status(201).json(quoterFinal);
   } catch (error) {
-    console.log('el error es ', { error });
-
+    //console.log('el error es ', { error });
     const err = new InternalServerError(error + ', ');
     return next(err);
   }
@@ -136,7 +124,6 @@ const updateQuoter = async (req, res, next) => {
   const userRole = req.user.rol;
 
   if (await titleQuoterByUserExist(data.title, idUser, id)) {
-    // const err = new BadRequestError('Title already exist, try with other one, ')
     const temp = [
       {
         msg: 'Title already exist, try with other one',
@@ -167,17 +154,12 @@ const updateQuoter = async (req, res, next) => {
     image: data.image,
   };
 
-  // console.log('dataToUpload ', dataToUpload)
-
   try {
     await Quoter.upsert({
       id: quoterId,
-      //...quoterBeforeToUpload,
       ...dataToUpload,
       idUser,
     });
-
-    //console.log('listo el upsert')
 
     const products = data.products;
     const productsDb = quoter.products;
@@ -194,7 +176,6 @@ const updateQuoter = async (req, res, next) => {
     });
 
     if (!productsEqual) {
-      //console.log('voy a destruir productos')
       await Product.destroy({
         where: { quoterId },
       });
@@ -205,8 +186,6 @@ const updateQuoter = async (req, res, next) => {
           await productsDb.save();
         })
       );
-      //console.log('listo destrucción de productos')
-      //return next(err)
     }
 
     res.json([
@@ -217,7 +196,7 @@ const updateQuoter = async (req, res, next) => {
       },
     ]);
   } catch (err) {
-    console.log('el error en all quoters by user es ', err);
+    //console.log('el error en all quoters by user es ', err);
     const error = new InternalServerError(err + ', ');
     return next(error);
   }
@@ -228,9 +207,7 @@ const deleteQuoter = async (req, res, next) => {
     const { id } = req.params;
     const idUser = req.user.id;
     const userRole = req.user.rol;
-    console.log('borrando quoter ', id);
     const quoter = await Quoter.findOne({ where: { id } });
-    //console.log(quoter)
     if (userRole === 'user')
       if (idUser != quoter.idUser) {
         const err = new ForbidenError('You cannot delete a quoter of other user, ');
@@ -242,22 +219,17 @@ const deleteQuoter = async (req, res, next) => {
 
     res.json({ message: 'delete ok', id });
   } catch (err) {
-    console.log('el error en all quoters by user es ', err);
+    //console.log('el error en all quoters by user es ', err);
     const error = new InternalServerError(err + ', ');
     return next(error);
   }
 };
 
 const deletaAllByUser = async (req, res, next) => {
-  console.log('on deletaAllByUser  ');
-
   try {
     const { idToDelete } = req.params;
     const idUser = req.user.id;
     const userRole = req.user.rol;
-
-    console.log('on deletaAllByUser , userRole, idToDelete, idUser ', userRole, idToDelete, idUser);
-
     if (userRole === 'user') {
       if (idUser !== idToDelete) {
         const err = new ForbidenError('You cannot delete ALl quoters of other user, ');
@@ -265,12 +237,10 @@ const deletaAllByUser = async (req, res, next) => {
       }
     }
 
-    console.log('user Authorized to delet quoter');
     const response = await Quoter.destroy({ where: { idUser: idToDelete } });
-    console.log('response deleting process ', response);
     res.status(200).json();
   } catch (err) {
-    console.log('el error en all quoters by user es ', err);
+    //console.log('el error en all quoters by user es ', err);
     const error = new InternalServerError(error + ', ');
     return next(error);
   }

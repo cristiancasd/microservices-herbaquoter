@@ -4,9 +4,6 @@ const Sequelize = require('sequelize');
 const sequelize = require('../database/config');
 const Model = Sequelize.Model;
 
-const config = require('config');
-const dbConfig = config.get('database'); //database is into file /config/index
-
 class Quoter extends Model {}
 
 Quoter.init(
@@ -28,7 +25,6 @@ Quoter.init(
   },
   {
     sequelize,
-    //tableName:  dbConfig.username,
     modelName: 'quoter',
   }
 );

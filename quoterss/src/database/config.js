@@ -4,13 +4,11 @@ const Sequelize = require('sequelize');
 
 //npm config
 const config = require('config');
-const dbConfig = config.get('database'); //database is into file /config/index
+const dbConfig = config.get('database'); //database info is into file ../config/index
 
-//console.log('dbConfig es !!! ');
 
 module.exports = new Sequelize(
   dbConfig.database,
-  //dbConfig.username,
   dbConfig.username,
   dbConfig.password,
   {

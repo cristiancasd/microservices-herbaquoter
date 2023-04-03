@@ -1,36 +1,23 @@
 const request = require('supertest');
-
-const path = require('path');
-const axios = require('axios');
 const { app } = require('../../app');
-
-//const sequelize = require('../../database/config');
 const Quoter = require('../Quoters');
 const Product = require('../Products');
 
-//const { initialData } = require('../../static/data/quoters-data');
 const { testData } = require('../../static/testData/testData');
 const testDataPro = testData();
 const {
   quoterCorrect,
-  quoterCorrect2,
-  quoterCorrect3,
-  quoterCorrect4,
   quoterCorrect5,
   quoterBadWithoutTitle,
   quoterBadWithoutImage,
   quoterWithProductArrayBad,
 } = testDataPro;
 
-const { globalCreateQuoter, adminData, idQuoterAdminData, userData, tokens } = require('../../test/setup-jest');
+const { globalCreateQuoter, tokens } = require('../../test/setup-jest');
 
-const randomUUID = 'c16ca228-cef4-453d-b007-7e2383eb894f';
-
-//********************* CREATE QUOTER *****************************
-describe('POST /api/quoters/create - Error when send bad data', () => {
+describe('CREATE QUOTER - POST /api/quoters/create', () => {
   it('should respond with a 200 status code', async () => {
-    const { tokenUser, tokenAdmin } = tokens();
-
+    const { tokenAdmin } = tokens();
     const quoter = await request(app)
       .post('/api/quoters/create')
       .send(quoterCorrect)
@@ -43,14 +30,12 @@ describe('POST /api/quoters/create - Error when send bad data', () => {
     expect(quoter.body[0].image).toBeDefined();
     expect(quoter.body[0].products).toBeDefined();
     expect(quoter.body[0].products).toBeInstanceOf(Array);
-    //expect(quoter.body[0].products[0].idProduct).toBeDefined();
     expect(quoter.body[0].products[0].sku).toBeDefined();
     expect(quoter.body[0].products[0].quantity).toBeDefined();
-    //idNewQuoter=quoter.body[0].id;
   });
 
   it('data correctly saved in DB', async () => {
-    const { tokenUser, tokenAdmin } = tokens();
+    const { tokenAdmin } = tokens();
     const response = await globalCreateQuoter(quoterCorrect5, tokenAdmin);
     const idNewQuoter = response.id;
     const quoterDB = await Quoter.findAll({
@@ -68,10 +53,8 @@ describe('POST /api/quoters/create - Error when send bad data', () => {
   });
 
   it('bad data (title already exist) should respond with a 400 status code', async () => {
-    const { tokenUser, tokenAdmin } = tokens();
-
+    const { tokenAdmin } = tokens();
     await globalCreateQuoter(quoterCorrect, tokenAdmin);
-
     const response = await request(app)
       .post('/api/quoters/create')
       .send(quoterCorrect)
@@ -83,8 +66,7 @@ describe('POST /api/quoters/create - Error when send bad data', () => {
   });
 
   it('Bad data(Title) should respond with a 400 status code', async () => {
-    const { tokenUser, tokenAdmin } = tokens();
-
+    const { tokenAdmin } = tokens();
     const response = await request(app)
       .post('/api/quoters/create')
       .send(quoterBadWithoutTitle)
@@ -96,8 +78,7 @@ describe('POST /api/quoters/create - Error when send bad data', () => {
   });
 
   it('Bad data(Image) should respond with a 400 status code', async () => {
-    const { tokenUser, tokenAdmin } = tokens();
-
+    const { tokenAdmin } = tokens();
     const response = await request(app)
       .post('/api/quoters/create')
       .send(quoterBadWithoutImage)
@@ -108,8 +89,7 @@ describe('POST /api/quoters/create - Error when send bad data', () => {
   });
 
   it('Bad data(Product Array) should respond with a 400 status code', async () => {
-    const { tokenUser, tokenAdmin } = tokens();
-
+    const { tokenAdmin } = tokens();
     const response = await request(app)
       .post('/api/quoters/create')
       .send(quoterWithProductArrayBad)

@@ -57,11 +57,11 @@ module.exports = {
             example: 'This plan have all products to get results', // example of a title
           },
 
-          idUser: {
+          /*idUser: {
             type: 'string', // data-type
             description: 'UUID number', // desc
             example: 'e7f5e4cf-f8df-4b95-b56e-56b9b17398p9', // example of an id
-          },
+          },*/
 
           image: {
             type: 'string', // data-type
