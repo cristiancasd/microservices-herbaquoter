@@ -1,0 +1,79 @@
+apiVersion: apps/v1 
+kind: Deployment
+metadata:
+  name: quoters-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: quoters
+  template:
+    metadata:
+      labels:
+        app: quoters
+    spec: 
+      containers:
+        - name: quoters
+          image: cristiancasd/herbaquoter-quoters  
+          env:
+            - name: DB_PASSWORD
+              value: '1389!DJ12nddcsvcds@w1'
+
+            - name: DB_NAME
+              value: 'quoters-postgres'
+
+            - name: DB_HOST
+              value: 'quoters-postgres-srv'
+
+            - name: DB_PORT
+              value: '5432'
+
+            - name: DB_USERNAME
+              value: 'postgres'
+
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secret-herbaquoter
+                  key: JWT_SECRET
+
+            - name: CLOUDINARY_URL
+              valueFrom:
+                secretKeyRef:
+                  name: cloudinary-url
+                  key: CLOUDINARY_URL
+
+
+            - name: PORT
+              value: '3010'
+
+            - name: HOST_API
+              value: 'http://ticketing-criss.com/api'
+
+            - name: HOST_API_PROD
+              value: 'http://www.herbaquoter.online/api'
+
+            - name: STAGE
+              value: 'dev'
+
+            #- name: AXIOS_URL_BACKEND_USERS_DEV
+            #  value: 'http://auth-products-srv:3009/api/auth/check-renew-token'
+
+            #- name: AXIOS_URL_BACKEND_USERS
+              #value: 'http://www.herbaquoter.online/api/auth/check-renew-token'
+              ##value: 'http://auth-products-srv:3009/api/auth/check-renew-token'
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: quoters-srv
+spec: 
+  selector:
+    app: quoters
+  ports:
+    - name: quoters
+      protocol: TCP
+      port: 3010
+      targetPort: 3010
