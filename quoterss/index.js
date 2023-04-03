@@ -18,7 +18,7 @@ const start = async () => {
   let wrongConnection = true;
   while (wrongConnection) {
     try {
-      console.log('voy a intentar conectar GitAction 3');
+      console.log('voy a intentar conectar GitAction');
       await sequelize.sync();
       console.log('conectado a la db'.yellow);
       wrongConnection = false;
