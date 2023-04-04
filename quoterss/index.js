@@ -3,8 +3,6 @@ require('colors');
 require('dotenv').config();
 
 const { app } = require('./src/app');
-
-//const sequelize = require('./src/config/database');
 const sequelize = require('./src/database/config');
 
 const start = async () => {
@@ -24,7 +22,6 @@ const start = async () => {
       wrongConnection = false;
     } catch (error) {
       console.log('error conectand a la db'.red);
-      //console.log(error)
       await sleep(3000);
       function sleep(ms) {
         return new Promise((resolve) => {

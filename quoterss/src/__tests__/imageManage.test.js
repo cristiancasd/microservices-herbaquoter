@@ -2,35 +2,31 @@ const { saveImageOnCloudinary, deleteImageCloudinary } = require('../helpers/ima
 const cloudinary = require('cloudinary').v2;
 cloudinary.config(process.env.CLOUDINARY_URL);
 
-describe('Pruebas en saveImageOnCloudinary', () => {
-  test('must upload image to cloudinary', async () => {
+describe('saveImageOnCloudinary helper', () => {
+  it('should upload image to cloudinary', async () => {
     const archivo = {
       tempFilePath: __dirname + '/temp.jpg',
     };
 
-    //console.log('*****************, ',archivo)
     const response = await saveImageOnCloudinary(archivo);
-    //console.log('response ******************* ', response);
     expect(response.secure_url).toBeDefined();
     expect(typeof response.secure_url).toBe('string');
-    //console.log('********* ',url)
-
     const nombreArr = response.secure_url.split('/');
     const nombre = nombreArr[nombreArr.length - 1];
     const [public_id] = nombre.split('.');
     await cloudinary.uploader.destroy(['herbaApp/quoters/' + public_id]);
   });
 
-  test('must be error uploading with file with bad properties to cloudinary', async () => {
+  it('should be error uploading with file with bad properties to cloudinary', async () => {
     const archivo = {
-      // must be tempFilePath
+      // must be tempFilePath, not tempFile
       tempFile: __dirname + '/temp.jpg',
     };
     const response = await saveImageOnCloudinary(archivo);
     expect(response instanceof Error).toBe(true);
   });
 
-  test('must be error uploading bad type file to cloudinary', async () => {
+  it('should be error uploading bad type file to cloudinary', async () => {
     const archivo = {
       tempFile: __dirname + '/temp.docx',
     };
@@ -38,20 +34,17 @@ describe('Pruebas en saveImageOnCloudinary', () => {
     expect(response instanceof Error).toBe(true);
   });
 
-  test('must delete file from cloudinary by id', async () => {
+  it('should delete file from cloudinary by id', async () => {
     const { secure_url } = await cloudinary.uploader.upload(__dirname + '/temp.jpg', { folder: 'herbaApp/quoters/' });
-
     const response = await deleteImageCloudinary(secure_url);
-    console.log(response);
     expect(response.result).toBeDefined();
     expect(response.result).toBe('ok');
   });
 
-  test('must show /not found/ delete file from cloudinary by id dont exit', async () => {
+  it('should show /not found/ when delete file from cloudinary by id dont exit', async () => {
     const url =
       'https://res.cloudinary.com/cristiancasd/image/upload/v1680279951/herbaApp/quoters/iarkq1ghiucb3m71rcnl.png';
     const response = await deleteImageCloudinary(url);
-    console.log(response);
     expect(response.result).toBeDefined();
     expect(response.result).toBe('not found');
   });

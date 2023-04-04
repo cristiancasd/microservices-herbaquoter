@@ -5,7 +5,6 @@ const { Op } = require('sequelize');
 const titleQuoterByUserExist = async (title, idUser, idQuoter = undefined) => {
   const quoterTitleExist = await Quoter.findAll({
     // where: { title: '%title%', idUser: idUser }
-
     //Find with lower case
     where: {
       [Op.and]: [
@@ -18,7 +17,6 @@ const titleQuoterByUserExist = async (title, idUser, idQuoter = undefined) => {
   if (!idQuoter) return quoterTitleExist[0] ? true : false;
 
   if (quoterTitleExist[0]) {
-    console.log('Estoy en update');
     return quoterTitleExist[0].dataValues.id === idQuoter ? false : true;
   } else {
     return false;

@@ -1,7 +1,7 @@
 const request = require('supertest');
 const { app } = require('../../app');
 
-describe('GET /api/files-quoters/find/:imageName FIND STATIC IMAGE', () => {
+describe('GET STATIC IMAGES /api/files-quoters/find/:imageName', () => {
   it('imageName exist, should respond with a 200 status code', async () => {
     const response = await request(app).get('/api/files-quoters/find/loseweight-full.jpg');
     expect(response.statusCode).toBe(200);

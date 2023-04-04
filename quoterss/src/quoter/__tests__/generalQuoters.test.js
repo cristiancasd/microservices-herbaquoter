@@ -1,55 +1,33 @@
 const request = require('supertest');
-
 const path = require('path');
-const axios = require('axios');
 const { app } = require('../../app');
 
-//const sequelize = require('../../database/config');
-const Quoter = require('../Quoters');
-const Product = require('../Products');
-
 const { initialData } = require('../../static/data/quoters-data');
-const { testData } = require('../../static/testData/testData');
-const testDataPro = testData();
-const {
-  quoterCorrect,
-  quoterCorrect2,
-  quoterCorrect3,
-  quoterCorrect4,
-  quoterCorrect5,
-  quoterBadWithoutTitle,
-  quoterBadWithoutImage,
-  quoterWithProductArrayBad,
-} = testDataPro;
-
-const { globalCreateQuoter, adminData, idQuoterAdminData, userData, tokens } = require('../../test/setup-jest');
-
-const randomUUID = 'c16ca228-cef4-453d-b007-7e2383eb894f';
 
 //********************* BAD request uRL *****************************
 describe('All bad request /apppi', () => {
-  test('GET should respond with a 404 status code', async () => {
+  it('GET should respond with a 404 status code', async () => {
     const response = await request(app).get('/apppi');
     expect(response.statusCode).toBe(404);
     expect(response.body.errors).toBeDefined();
     expect(response.body.errors[0].message).toBeDefined();
   });
 
-  test('POST should respond with a 404 status code', async () => {
+  it('POST should respond with a 404 status code', async () => {
     const response = await request(app).post('/apppi');
     expect(response.statusCode).toBe(404);
     expect(response.body.errors).toBeDefined();
     expect(response.body.errors[0].message).toBeDefined();
   });
 
-  test('DELETE should respond with a 404 status code', async () => {
+  it('DELETE should respond with a 404 status code', async () => {
     const response = await request(app).delete('/apppi');
     expect(response.statusCode).toBe(404);
     expect(response.body.errors).toBeDefined();
     expect(response.body.errors[0].message).toBeDefined();
   });
 
-  test('UPDATE should respond with a 404 status code', async () => {
+  it('UPDATE should respond with a 404 status code', async () => {
     const response = await request(app).put('/apppi');
     expect(response.statusCode).toBe(404);
     expect(response.body.errors).toBeDefined();

@@ -54,7 +54,7 @@ spec:
               value: 'http://www.herbaquoter.online/api'
 
             - name: STAGE
-              value: 'prod'
+              value: 'dev'
 
             #- name: AXIOS_URL_BACKEND_USERS_DEV
             #  value: 'http://auth-products-srv:3009/api/auth/check-renew-token'
