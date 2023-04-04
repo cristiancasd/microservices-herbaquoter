@@ -4,7 +4,6 @@ const { app } = require('../../app');
 
 const { initialData } = require('../../static/data/quoters-data');
 
-
 //********************* BAD request uRL *****************************
 describe('All bad request /apppi', () => {
   it('GET should respond with a 404 status code', async () => {

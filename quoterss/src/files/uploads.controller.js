@@ -12,9 +12,7 @@ const { InternalServerError } = require('../errors/internal-server-error');
 const getStaticImage = async (req, res, next) => {
   const { imageName } = req.params;
   let pathImagen = join(__dirname, '../static/images', imageName);
-  return fs.existsSync(pathImagen)
-    ? res.sendFile(pathImagen)
-    : next(new NotFoundError('Image name dont exist, '));
+  return fs.existsSync(pathImagen) ? res.sendFile(pathImagen) : next(new NotFoundError('Image name dont exist, '));
 };
 
 const updateImage = async (req, res, next) => {
@@ -24,7 +22,7 @@ const updateImage = async (req, res, next) => {
 
   const quoterDb = await Quoter.findAll({
     where: { $id$: idQuoter },
-    include: [{ model: Product, as: 'products', }]
+    include: [{ model: Product, as: 'products' }],
   });
 
   const quoter = quoterDb[0];

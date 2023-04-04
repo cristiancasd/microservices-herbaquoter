@@ -1,7 +1,6 @@
 const custom_error = require('../errors/custom-error');
 
 const errorHandler = (err, req, res, next) => {
-
   //console.log('en error handler');
   if (err instanceof custom_error.CustomError) {
     //console.log(err.serializeErrors());

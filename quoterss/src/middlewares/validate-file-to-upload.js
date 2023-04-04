@@ -5,7 +5,6 @@ const { RequestValidationError } = require('../errors/request-validation-errors'
 const validateImageToUpload = (req, res = response, next) => {
   const errors = validationResult(req);
   if (errors.isEmpty()) {
-
     if (!req.files) {
       //console.log('File dont exist');
       const temp = [

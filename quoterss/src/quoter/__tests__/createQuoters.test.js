@@ -5,13 +5,8 @@ const Product = require('../Products');
 
 const { testData } = require('../../static/testData/testData');
 const testDataPro = testData();
-const {
-  quoterCorrect,
-  quoterCorrect5,
-  quoterBadWithoutTitle,
-  quoterBadWithoutImage,
-  quoterWithProductArrayBad,
-} = testDataPro;
+const { quoterCorrect, quoterCorrect5, quoterBadWithoutTitle, quoterBadWithoutImage, quoterWithProductArrayBad } =
+  testDataPro;
 
 const { globalCreateQuoter, tokens } = require('../../test/setup-jest');
 

@@ -57,23 +57,13 @@ router.get('/findbyid/:id', [check('id', 'id UUID incorrect').isUUID(), quoterBy
 
 router.delete(
   '/delete/:id',
-  [
-    validateJwtLocally,
-    check('id', 'id must be UUID').isUUID(),
-    quoterByIdExist,
-    validation,
-  ],
+  [validateJwtLocally, check('id', 'id must be UUID').isUUID(), quoterByIdExist, validation],
   deleteQuoter
 );
 
 router.delete(
   '/deleteallbyuser/:idToDelete',
-  [
-    validateJwtLocally,
-    check('idToDelete', 'idToDelete must be UUID').isUUID(),
-    quotersByUserExist,
-    validation,
-  ],
+  [validateJwtLocally, check('idToDelete', 'idToDelete must be UUID').isUUID(), quotersByUserExist, validation],
   deletaAllByUser
 );
 

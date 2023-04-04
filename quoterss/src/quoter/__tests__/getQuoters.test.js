@@ -3,12 +3,11 @@ const { app } = require('../../app');
 
 const { testData } = require('../../static/testData/testData');
 const testDataPro = testData();
-const { quoterCorrect2,} = testDataPro;
+const { quoterCorrect2 } = testDataPro;
 
-const {adminData, tokens, globalCreateQuoter} = require('../../test/setup-jest');
+const { adminData, tokens, globalCreateQuoter } = require('../../test/setup-jest');
 
 const randomUUID = 'c16ca228-cef4-453d-b007-7e2383eb894f';
-
 
 describe('GET ALL QUOTERS /api/quoters', () => {
   it('should respond with a 200 status code', async () => {
@@ -59,7 +58,6 @@ describe('GET QUOTER BY USER /api/quoters/idQuoter', () => {
     expect(response.body.errors[0].message && response.body.errors[0].field).toBeDefined();
   });
 });
-
 
 describe('GET QUOTER BY ID /api/quoters/idQuoter', () => {
   it('should respond array', async () => {

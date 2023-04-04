@@ -6,14 +6,9 @@ const Quoter = require('../Quoters');
 const { testData } = require('../../static/testData/testData');
 
 const testDataPro = testData();
-const {
-  quoterCorrect2,
-  quoterCorrect3,
-  quoterCorrect4,
-  quoterCorrect5,
-} = testDataPro;
+const { quoterCorrect2, quoterCorrect3, quoterCorrect4, quoterCorrect5 } = testDataPro;
 
-const { adminData, userData, tokens,globalCreateQuoter } = require('../../test/setup-jest');
+const { adminData, userData, tokens, globalCreateQuoter } = require('../../test/setup-jest');
 
 const randomUUID = 'c16ca228-cef4-453d-b007-7e2383eb894f';
 

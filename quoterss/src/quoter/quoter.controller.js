@@ -12,8 +12,8 @@ const { InternalServerError } = require('../errors/internal-server-error');
 const findDefaultQuoters = (req, res) => {
   const loseweight = initialData();
   const quotersInitial = loseweight.map((quoter) => {
-  const baseUrl = process.env.STAGE === 'dev' ? process.env.HOST_API : process.env.HOST_API_PROD;
-    
+    const baseUrl = process.env.STAGE === 'dev' ? process.env.HOST_API : process.env.HOST_API_PROD;
+
     return {
       ...quoter,
       image: baseUrl + '/files-quoters/find/' + quoter.image,

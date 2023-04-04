@@ -9,8 +9,6 @@ let defaultUser = { id: '42a7d9c9-4a05-4a36-aeab-33179850d87b', rol: 'user' };
 let defaultAdmin = { id: 'e1e70f53-de0d-44f5-968a-ec19c865a23a', rol: 'admin' };
 let defaultSuperAdmin = { id: 'b068b3d3-3bc9-426e-a38b-b37acd823f22', rol: 'super_admin' };
 
-
-
 let tokenAdmin = '';
 let tokenUser = '';
 let tokenSuperAdmin = '';
@@ -26,7 +24,7 @@ const newJWT = (id = '', rol = '') => {
       payload,
       process.env.JWT_SECRET,
       {
-        expiresIn: '4h', 
+        expiresIn: '4h',
       },
       (err, token) => {
         if (err) {
