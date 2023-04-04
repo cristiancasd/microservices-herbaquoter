@@ -7,7 +7,7 @@ const testDataPro = testData();
 const { quoterCorrect } = testDataPro;
 
 describe('quoters - utils - titleQuoterByUserExist', () => {
-  test('should be return true: Title already exist in database by User', async () => {
+  it('should be return true: Title already exist in database by User', async () => {
     const { tokenAdmin } = tokens();
     const { title, id } = await globalCreateQuoter(quoterCorrect, tokenAdmin);
     const { id: idUser } = adminData();
@@ -15,7 +15,7 @@ describe('quoters - utils - titleQuoterByUserExist', () => {
     expect(response).toBe(true);
   });
 
-  test('should be return true: Title already exist in database by User, with upper or lowercase', async () => {
+  it('should be return true: Title already exist in database by User, with upper or lowercase', async () => {
     const { tokenAdmin } = tokens();
     const { title, id } = await globalCreateQuoter(quoterCorrect, tokenAdmin);
     const { id: idUser } = adminData();
@@ -23,7 +23,7 @@ describe('quoters - utils - titleQuoterByUserExist', () => {
     expect(response).toBe(true);
   });
 
-  test('should be return false: Title exist in database by User BUT have the same id quoter (update quoter)', async () => {
+  it('should be return false: Title exist in database by User BUT have the same id quoter (update quoter)', async () => {
     const { tokenAdmin } = tokens();
     const { title, id } = await globalCreateQuoter(quoterCorrect, tokenAdmin);
     const { id: idUser } = adminData();
@@ -31,7 +31,7 @@ describe('quoters - utils - titleQuoterByUserExist', () => {
     expect(response).toBe(false);
   });
 
-  test('should be return false: Title dont exist in database by User', async () => {
+  it('should be return false: Title dont exist in database by User', async () => {
     const { tokenAdmin } = tokens();
     const { title, id } = await globalCreateQuoter(quoterCorrect, tokenAdmin);
     const { id: idUser } = adminData();

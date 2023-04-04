@@ -1,35 +1,19 @@
 const request = require('supertest');
-
-const path = require('path');
-const axios = require('axios');
 const { app } = require('../../app');
-
-//const sequelize = require('../../database/config');
 const Quoter = require('../Quoters');
 const Product = require('../Products');
 
-const { initialData } = require('../../static/data/quoters-data');
 const { testData } = require('../../static/testData/testData');
 const testDataPro = testData();
-const {
-  quoterCorrect,
-  quoterCorrect2,
-  quoterCorrect3,
-  quoterCorrect4,
-  quoterCorrect5,
-  quoterBadWithoutTitle,
-  quoterBadWithoutImage,
-  quoterWithProductArrayBad,
-} = testDataPro;
+const { quoterCorrect, quoterCorrect3, quoterCorrect5, quoterWithProductArrayBad } = testDataPro;
 
-const { globalCreateQuoter, adminData, idQuoterAdminData, userData, tokens } = require('../../test/setup-jest');
+const { globalCreateQuoter, tokens } = require('../../test/setup-jest');
 
 const randomUUID = 'c16ca228-cef4-453d-b007-7e2383eb894f';
 
-//********************* PUT QUOTER  *****************************
 describe('PUT /api/quoters/edit', () => {
   it('Update fullness (200)', async () => {
-    const { tokenUser, tokenAdmin } = tokens();
+    const { tokenAdmin } = tokens();
 
     const dataToUpdate = {
       title: 'testing',
@@ -74,12 +58,10 @@ describe('PUT /api/quoters/edit', () => {
     expect(quoterDB[0].products[0].quantity).toEqual(dataToUpdate.products[0].quantity);
   });
 
-  //todo: implement dont care upercases
   it('We can not update a repetitive title (400)', async () => {
-    const { tokenUser, tokenAdmin } = tokens();
+    const { tokenAdmin } = tokens();
 
     const quoter = await globalCreateQuoter(quoterCorrect5, tokenAdmin);
-
     const quoter2 = await globalCreateQuoter(quoterCorrect3, tokenAdmin);
 
     const response = await request(app)
@@ -102,10 +84,8 @@ describe('PUT /api/quoters/edit', () => {
   });
 
   it('Bad data(Product Array) should respond with a 400 status code', async () => {
-    const { tokenUser, tokenAdmin } = tokens();
-
+    const { tokenAdmin } = tokens();
     const quoterAdmin = await globalCreateQuoter(quoterCorrect5, tokenAdmin);
-
     const response = await request(app)
       .put('/api/quoters/edit/' + quoterAdmin.id)
       .send(quoterWithProductArrayBad)
@@ -116,10 +96,8 @@ describe('PUT /api/quoters/edit', () => {
   });
 
   it('Bad Data (Empty Athorization) should respond with a 401 status code', async () => {
-    const { tokenUser, tokenAdmin } = tokens();
-
+    const { tokenAdmin } = tokens();
     const quoterAdmin = await globalCreateQuoter(quoterCorrect5, tokenAdmin);
-
     const response = await request(app)
       .put('/api/quoters/edit/' + quoterAdmin.id)
       .send(quoterCorrect);
@@ -130,8 +108,7 @@ describe('PUT /api/quoters/edit', () => {
   });
 
   it('Bad Data (bad JWT) should respond with a 401 status code', async () => {
-    const { tokenUser, tokenAdmin } = tokens();
-
+    const { tokenAdmin } = tokens();
     const quoterAdmin = await globalCreateQuoter(quoterCorrect5, tokenAdmin);
     const response = await request(app)
       .put('/api/quoters/edit/' + quoterAdmin.id)
@@ -143,8 +120,7 @@ describe('PUT /api/quoters/edit', () => {
   });
 
   it('Bad Data (ID quoter no UUIID) should respond with a 400 status code', async () => {
-    const { tokenUser, tokenAdmin } = tokens();
-
+    const { tokenAdmin } = tokens();
     const response = await request(app)
       .put('/api/quoters/edit/' + 'nc45zxc')
       .set('Authorization', `Bearer ${tokenAdmin}`);
@@ -153,8 +129,8 @@ describe('PUT /api/quoters/edit', () => {
     expect(response.body.errors[0].message && response.body.errors[0].message).toBeDefined();
   });
 
-  it('Bad Data (ID quoter  UUIID dont exist) should respond with a 400 status code', async () => {
-    const { tokenUser, tokenAdmin } = tokens();
+  it('Bad Data (ID quoter UUIID dont exist) should respond with a 400 status code', async () => {
+    const { tokenAdmin } = tokens();
 
     const response = await request(app)
       .put('/api/quoters/edit/' + randomUUID)
@@ -164,11 +140,9 @@ describe('PUT /api/quoters/edit', () => {
     expect(response.body.errors[0].message).toBeDefined();
   });
 
-  it('Bad Data (Token User try delete other quoter different his) should respond with a 403 status code', async () => {
+  it('Bad Data (User try delete other quotetion different his) should respond with a 403 status code', async () => {
     const { tokenUser, tokenAdmin } = tokens();
-
     const quoterAdmin = await globalCreateQuoter(quoterCorrect5, tokenAdmin);
-
     const response = await request(app)
       .put('/api/quoters/edit/' + quoterAdmin.id)
       .send(quoterCorrect)

@@ -18,7 +18,7 @@ const validateJwtLocally = async (req, res, next) => {
 
     next();
   } catch (error) {
-    console.log('error', error);
+    //console.log('error', error);
     const err = new AuthError('Token not vaild, ');
     return next(err);
   }

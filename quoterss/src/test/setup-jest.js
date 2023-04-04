@@ -1,7 +1,5 @@
 const request = require('supertest');
 const { app } = require('../app');
-const axios = require('axios');
-
 const sequelize = require('../database/config');
 const Quoter = require('../quoter/Quoters');
 
@@ -10,10 +8,6 @@ const jwt = require('jsonwebtoken'); //Paquete generar JWT
 let defaultUser = { id: '42a7d9c9-4a05-4a36-aeab-33179850d87b', rol: 'user' };
 let defaultAdmin = { id: 'e1e70f53-de0d-44f5-968a-ec19c865a23a', rol: 'admin' };
 let defaultSuperAdmin = { id: 'b068b3d3-3bc9-426e-a38b-b37acd823f22', rol: 'super_admin' };
-
-let user = {};
-let admin = {};
-let super_admin = {};
 
 let tokenAdmin = '';
 let tokenUser = '';
@@ -26,12 +20,11 @@ const newJWT = (id = '', rol = '') => {
   return new Promise((resolve, reject) => {
     const payload = { id, rol };
 
-    //Instrucción para crear un JWT
     jwt.sign(
       payload,
       process.env.JWT_SECRET,
       {
-        expiresIn: '4h', // Escoger cuanto dura el JWT
+        expiresIn: '4h',
       },
       (err, token) => {
         if (err) {
@@ -58,13 +51,6 @@ beforeAll(async () => {
   tokenAdmin = await newJWT(defaultAdmin.id, defaultAdmin.rol);
   tokenUser = await newJWT(defaultUser.id, defaultUser.rol);
   tokenSuperAdmin = await newJWT(defaultSuperAdmin.id, defaultSuperAdmin.rol);
-
-  user = { ...defaultUser };
-  admin = { ...defaultAdmin };
-  super_admin = { ...defaultSuperAdmin };
-
-  console.log('token user es ', tokenUser);
-  console.log('token tokenAdmin es ', tokenAdmin);
 });
 
 beforeEach(async () => {
@@ -80,11 +66,11 @@ afterAll(async () => {
 });
 
 const adminData = () => {
-  return admin;
+  return defaultAdmin;
 };
 
 const userData = () => {
-  return user;
+  return defaultUser;
 };
 
 const idQuoterAdminData = async () => {

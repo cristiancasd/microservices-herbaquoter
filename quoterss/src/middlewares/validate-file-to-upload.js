@@ -1,17 +1,12 @@
 const { response } = require('express');
 const { validationResult } = require('express-validator');
 const { RequestValidationError } = require('../errors/request-validation-errors');
-const { UploadFileError } = require('../errors/upload-file-error');
 
 const validateImageToUpload = (req, res = response, next) => {
   const errors = validationResult(req);
   if (errors.isEmpty()) {
-    //console.log('estoy en validateImageToUpload');
-    //console.log('validateImageToUpload req.files', req.files);
-
     if (!req.files) {
-      console.log('File dont exist');
-      //const err= new UploadFileError('File dont exist,');
+      //console.log('File dont exist');
       const temp = [
         {
           msg: 'File dont exist',
@@ -24,9 +19,7 @@ const validateImageToUpload = (req, res = response, next) => {
 
     const { archivo } = req.files;
     if (Object.keys(req.files).length === 0 || !archivo) {
-      console.log('File name archivo dont exist');
-
-      //const err= new UploadFileError('File name archivo dont exist,');
+      //console.log('File name archivo dont exist');
       const temp = [
         {
           msg: `File name 'archivo' dont exist`,
@@ -42,8 +35,7 @@ const validateImageToUpload = (req, res = response, next) => {
     const extension = dividedName[dividedName.length - 1];
 
     if (!validExtensions.includes(extension)) {
-      console.log(`The extension must be ${validExtensions},`);
-      //const err= new UploadFileError(`The extension must be ${validExtensions},`);
+      //console.log(`The extension must be ${validExtensions},`);
       const temp = [
         {
           msg: `The extension must be ${validExtensions}`,
