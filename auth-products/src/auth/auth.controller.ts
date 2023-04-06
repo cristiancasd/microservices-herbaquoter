@@ -70,19 +70,23 @@ export class AuthController {
     return this.authService.update(id, updateAuthDto);
   }
 
-  @Patch(':id')
-  @ApiResponse({status: 201, description: 'User updated', type: User})
+  //@Patch('editmyprofile/:id')
+  @Patch('editmyprofile')
+
+  @ApiResponse({status: 200, description: 'User updated', type: User})
   @ApiResponse({status: 400, description: 'Bad request'})
-  @ApiResponse({status: 403, description: 'User no atuthorized'})
+  //@ApiResponse({status: 403, description: 'User no atuthorized'})
   @ApiResponse({status: 404, description: 'User not found in DB'})
   @ApiBearerAuth('JWT-auth')
   @Auth()
-  updateUser(
-    @Param('id', ParseUUIDPipe) id: string, 
+  //updateUser(
+    updateMyProfile(
+  //@Param('id', ParseUUIDPipe) id: string, 
   @Body() updateUserDto: UpdateUserDto,
   @GetUser()user: User) 
   {
-    return this.authService.updateUser(id, updateUserDto, user);
+   // return this.authService.updateUser(id, updateUserDto, user);
+    return this.authService.updateMyProfile(updateUserDto, user);
   }
  
   @Delete(':id')

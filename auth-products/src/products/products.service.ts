@@ -69,7 +69,6 @@ export class ProductsService {
   }
 
   async findAll(paginationDto) {
-    console.log('.......estoy en findAll');
     const {limit=1000, offset=0}=paginationDto;
     const products=await this.productRepository.find({   
       where: {
@@ -78,7 +77,6 @@ export class ProductsService {
       take: limit,
       skip: offset,      
     });
-    console.log('products encotrados',products.length)
 
     if(!products || products.length===0) 
         throw new NotFoundException(`Products dont have data`);
