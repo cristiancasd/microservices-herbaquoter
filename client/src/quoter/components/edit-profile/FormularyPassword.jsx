@@ -5,25 +5,14 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 export const FormularyPassword = (props) => {
-  const {
-    formSubmitted,
-    onInputChange,
-    oldPassword,
-    oldPasswordValid,
-    password,
-    passwordValid,
-    password2,
-    password2Valid,
-  } = props;
+  const { onInputChange, oldPassword, oldPasswordValid, password, passwordValid, password2, password2Valid } = props;
 
-  const { errorMessage} = useSelector((state) => state.auth);
-
+  const { errorMessage } = useSelector((state) => state.auth);
 
   const [showOldPassword, setShowOldPassword] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showPassword2, setShowPassword2] = useState(false);
   const [alert, setAlert] = useState('');
-
 
   useEffect(() => {
     errorMessage && setAlert(<Alert severity="error">{errorMessage}</Alert>);
@@ -46,104 +35,127 @@ export const FormularyPassword = (props) => {
       : setShowPassword2((show) => !show);
   };
 
-
-  return(
-    
+  return (
     <Stack
-        sx={{
-          width: '100%',
-          minWidth: { xs: '300px', sm: '360px', md: '400px' },
-          gap: '1.5rem',
-        }}
-      >
-        <Grid item xs={12} md={12}>
-          <Typography fontSize={12} marginBottom="10px">
-            * The password must have at least 6 characters, 1 number, 1 uppercase, 1 lowercase
-          </Typography>
+      sx={{
+        width: '100%',
+        minWidth: { xs: '300px', sm: '360px', md: '400px' },
+        maxWidth: { xs: '300px', sm: '360px', md: '400px' },
+        gap: '1.5rem',
+      }}
+    >
+      <Grid item xs={12} md={12}>
+        <Typography fontSize={12} marginBottom="10px">
+          * The password must have at least 6 characters, 1 number, 1 uppercase, 1 lowercase
+        </Typography>
 
-          {/*current password */}
-          <Grid container spacing={2} alignItems="center">
-            <Grid item xs={10} md={11}>
-              <TextField
-                type={showOldPassword ? 'text' : 'password'}
-                variant="filled"
-                fullWidth
-                name="oldPassword"
-                value={oldPassword}
-                onChange={onInputChange}
-                error={!!oldPasswordValid && formSubmitted}
-                helperText={formSubmitted && oldPasswordValid}
-                placeholder="Write your current Password"
-                label="current Password"
-                sx={sxConfig}
-                required
-              />
-            </Grid>
-
-            <Grid item xs={2} md={1}>
-              <IconButton onClick={() => handleClickShowPassword('old')}>
-                {' '}
-                {showOldPassword ? <VisibilityOff /> : <Visibility />}
-              </IconButton>
-            </Grid>
+        {/*current password */}
+        <Grid container spacing={2} alignItems="center">
+          <Grid item xs={10} md={11}>
+            <TextField
+              type={showOldPassword ? 'text' : 'password'}
+              variant="filled"
+              fullWidth
+              name="oldPassword"
+              value={oldPassword}
+              onChange={onInputChange}
+              error={!!oldPasswordValid && oldPassword.length >= 1}
+              helperText={oldPassword.length >= 1 && oldPasswordValid}
+              placeholder="Write your current Password"
+              label="current Password"
+              sx={sxConfig}
+              required
+              onPaste={(e) => {
+                e.preventDefault();
+                return false;
+              }}
+              onCopy={(e) => {
+                e.preventDefault();
+                return false;
+              }}
+            />
           </Grid>
 
-          {/*new password */}
-          <Grid container spacing={2} alignItems="center">
-            <Grid item xs={10} md={11}>
-              <TextField
-                type={showPassword ? 'text' : 'password'}
-                variant="filled"
-                fullWidth
-                name="password"
-                value={password}
-                onChange={onInputChange}
-                error={!!passwordValid && formSubmitted}
-                helperText={formSubmitted && passwordValid}
-                placeholder="New Password"
-                label="New Password"
-                sx={sxConfig}
-                autoComplete="new-password"
-                required
-              />
-            </Grid>
-
-            <Grid item xs={2} md={1}>
-              <IconButton onClick={() => handleClickShowPassword('new')}>
-                {' '}
-                {showPassword ? <VisibilityOffOutlined /> : <Visibility />}
-              </IconButton>
-            </Grid>
-          </Grid>
-
-          {/*confirm password */}
-          <Grid container spacing={2} alignItems="center">
-            <Grid item xs={10} md={11}>
-              <TextField
-                type={showPassword2 ? 'text' : 'password'}
-                variant="filled"
-                fullWidth
-                name="password2"
-                value={password2}
-                onChange={onInputChange}
-                error={!!password2Valid && formSubmitted}
-                helperText={formSubmitted && password2Valid}
-                placeholder="Confirm new Password"
-                label="Confirm new Password"
-                sx={sxConfig}
-                required
-              />
-            </Grid>
-            <Grid item xs={2} md={1}>
-              <IconButton onClick={() => handleClickShowPassword('new2')}>
-                {' '}
-                {showPassword2 ? <VisibilityOff /> : <Visibility />}
-              </IconButton>
-            </Grid>
+          <Grid item xs={2} md={1}>
+            <IconButton onClick={() => handleClickShowPassword('old')}>
+              {' '}
+              {showOldPassword ? <VisibilityOff /> : <Visibility />}
+            </IconButton>
           </Grid>
         </Grid>
 
-        {alert}
-      </Stack>
+        {/*new password */}
+        <Grid container spacing={2} alignItems="center">
+          <Grid item xs={10} md={11}>
+            <TextField
+              type={showPassword ? 'text' : 'password'}
+              variant="filled"
+              fullWidth
+              name="password"
+              value={password}
+              onChange={onInputChange}
+              error={!!passwordValid && password.length >= 1}
+              helperText={password.length >= 1 && passwordValid}
+              placeholder="New Password"
+              label="New Password"
+              sx={sxConfig}
+              autoComplete="new-password"
+              required
+              onPaste={(e) => {
+                e.preventDefault();
+                return false;
+              }}
+              onCopy={(e) => {
+                e.preventDefault();
+                return false;
+              }}
+            />
+          </Grid>
+
+          <Grid item xs={2} md={1}>
+            <IconButton onClick={() => handleClickShowPassword('new')}>
+              {' '}
+              {showPassword ? <VisibilityOffOutlined /> : <Visibility />}
+            </IconButton>
+          </Grid>
+        </Grid>
+
+        {/*confirm password */}
+        <Grid container spacing={2} alignItems="center">
+          <Grid item xs={10} md={11}>
+            <TextField
+              type={showPassword2 ? 'text' : 'password'}
+              variant="filled"
+              fullWidth
+              name="password2"
+              value={password2}
+              onChange={onInputChange}
+              error={!!password2Valid && password2.length >= 1}
+              helperText={password2.length >= 1 && password2Valid}
+              placeholder="Confirm new Password"
+              label="Confirm new Password"
+              sx={sxConfig}
+              required
+              onPaste={(e) => {
+                e.preventDefault();
+                return false;
+              }}
+              onCopy={(e) => {
+                e.preventDefault();
+                return false;
+              }}
+            />
+          </Grid>
+          <Grid item xs={2} md={1}>
+            <IconButton onClick={() => handleClickShowPassword('new2')}>
+              {' '}
+              {showPassword2 ? <VisibilityOff /> : <Visibility />}
+            </IconButton>
+          </Grid>
+        </Grid>
+      </Grid>
+
+      {alert}
+    </Stack>
   );
 };
