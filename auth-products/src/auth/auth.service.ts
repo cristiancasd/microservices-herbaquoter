@@ -17,8 +17,6 @@ import { PaginationDto } from 'src/common/dto/pagination.dto';
 import { validate as isUUID } from 'uuid'
 
   
-
-
 @Injectable()
 export class AuthService { 
 
@@ -27,7 +25,6 @@ export class AuthService {
     private readonly userRepository: Repository<User>,
     private readonly jwtService: JwtService, 
   ){}
-
 
   async create(createUserDto: CreateUserDto) {
     try{
@@ -107,8 +104,10 @@ export class AuthService {
     const queryBuilder=this.userRepository.createQueryBuilder('us');
     
     isUUID(term)
-      ? users=[await this.userRepository.findOneBy({id: term,isactive: true})]
-      : users=await queryBuilder.where('(us.email =:email or us.rol =:rol) and us.isactive =:isactive',{
+      //? users=[await this.userRepository.findOneBy({id: term,isactive: true})]
+      ? users=[await this.userRepository.findOneBy({id: term})]
+      //: users=await queryBuilder.where('(us.email =:email or us.rol =:rol) and us.isactive =:isactive',{
+      : users=await queryBuilder.where('(us.email =:email or us.rol =:rol)',{
         email: term.toLowerCase(),
         rol: term.toLowerCase(),
         isactive: true,

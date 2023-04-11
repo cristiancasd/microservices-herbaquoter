@@ -1,7 +1,7 @@
 import { CloseOutlined, ImageSearchOutlined } from '@mui/icons-material';
 import { Alert, Button, Grid, IconButton, ImageList, ImageListItem, Stack } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
-import { isTargetFilesCorrect } from '../../../helpers/validFile';
+import { isTargetFilesCorrect } from '../../helpers/validFile';
 
 export const FormularyImage = (props) => {
   const { image, imageFile, setImageFile } = props;

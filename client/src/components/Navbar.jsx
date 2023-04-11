@@ -15,11 +15,12 @@ import {
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { startLogout } from '../../store/auth/thunks';
-import { handleMobileOpen, setDefaultInitalVariablesRedux, setNavBarSelection } from '../../store/quoter/quoterSlice';
-import { startExecuteSeed } from '../../store/quoter/thunks';
+import { startLogout } from '../store/auth/thunks';
+import { handleMobileOpen, setDefaultInitalVariablesRedux, setNavBarSelection } from '../store/quoter/quoterSlice';
+import { startExecuteSeed } from '../store/quoter/thunks';
 import { DialogEditProfile } from './edit-profile/DialogEditProfile';
 import Swal from 'sweetalert2';
+import { setCurrentProcess } from '../store/common/commonSlice';
 
 const pages = ['Quoter', 'Categ/Prod', 'Admin'];
 const settings = ['Profile', 'Edit Profile', 'Logout'];
@@ -29,6 +30,8 @@ export const Navbar = ({ drawerWidth = 240 }) => {
 
   const { mobileOpen, navBarSelection, quotersDefault } = useSelector((state) => state.quoter);
   const { errorMessage, successMessage } = useSelector((state) => state.auth);
+
+  const { currentPage } = useSelector((state) => state.common);
 
   const { user } = useSelector((state) => state.auth);
 
@@ -87,9 +90,12 @@ export const Navbar = ({ drawerWidth = 240 }) => {
             <Box sx={{ flexGrow: 1, display: 'flex' }}>
               <Link to="/quoter">
                 <Button
-                  onClick={() => dispatch(setNavBarSelection('quoters'))}
+                  onClick={() => {
+                    dispatch(setNavBarSelection('quoters'));
+                    dispatch(setCurrentProcess('quoters'));
+                  }}
                   sx={{ my: 2, color: 'white', display: 'block' }}
-                  variant={navBarSelection == 'quoters' ? 'contained' : ''}
+                  variant={currentPage == 'quoters' ? 'contained' : ''}
                   color="personal"
                 >
                   {' '}
@@ -100,8 +106,12 @@ export const Navbar = ({ drawerWidth = 240 }) => {
               <Link to="/products">
                 <Button
                   sx={{ my: 2, color: 'white', display: 'block' }}
-                  variant={navBarSelection == 'products' ? 'contained' : ''}
+                  variant={currentPage == 'products' ? 'contained' : ''}
                   color="personal"
+                  onClick={() => {
+                    //dispatch(setNavBarSelection('products'))
+                    dispatch(setCurrentProcess('products'));
+                  }}
                 >
                   Products
                 </Button>
@@ -142,6 +152,11 @@ export const Navbar = ({ drawerWidth = 240 }) => {
                 >
                   <Typography textAlign="center">Edit Profile</Typography>
                 </MenuItem>
+                {user.rol !== 'user' && (
+                  <MenuItem key="admin-manager" onClick={() => dispatch(setCurrentProcess('manager'))}>
+                    <Typography textAlign="center">Admin Manager</Typography>
+                  </MenuItem>
+                )}
                 {user.rol === 'super-admin' && (
                   <MenuItem key="seed" onClick={() => dispatch(startExecuteSeed(quotersDefault))}>
                     <Typography textAlign="center">Execute Seed</Typography>

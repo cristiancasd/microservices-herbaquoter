@@ -45,7 +45,7 @@ export class AuthController {
   }
 
 
-  @Get(':term')
+  @Get('admin/find/:term')
   @ApiResponse({status: 201, description: 'User found',type: User})
   @ApiResponse({status: 400, description: 'Bad request'})
   @ApiResponse({status: 403, description: 'User no atuthorized'})
@@ -58,7 +58,7 @@ export class AuthController {
     return this.authService.findOne(term,user);
   }
 
-  @Patch('admin/:id')  
+  @Patch('admin/edit/:id')  
   @ApiResponse({status: 201, description: 'User updated', type: User})
   @ApiResponse({status: 400, description: 'Bad request'})
   @ApiResponse({status: 404, description: 'No se encontró el usuario'})

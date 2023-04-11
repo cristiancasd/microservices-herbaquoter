@@ -2,6 +2,7 @@
 import { quoterApi } from '../../api';
 import { getEnvVariables } from '../../helpers/getEnvVariables';
 import { startLoadingCategories, startLoadingProducts } from '../quoter/thunks';
+import { onUsersFinded } from '../searcher/searcherSlice';
 import {
   checkingCredentials,
   clearErrorMessage,
@@ -187,15 +188,67 @@ export const startEditProfile = (userNewData) => {
   };
 };
 
-export const startUploadingFiles = (files = []) => {
+export const startEditUser = (userNewData, id) => {
+  return async (dispatch) => {
+    // dispatch(checkingCredentials());
+    const userNewDataBackend = {};
+    for (let clave in userNewData) {
+      if (userNewData[clave] !== '' && clave !== 'password2') userNewDataBackend[clave] = userNewData[clave];
+    }
+    console.log('data profile to update ', userNewDataBackend);
+    try {
+      const { data } = await quoterApi.patch('/auth/admin/edit/' + id, userNewDataBackend);
+      console.log('response update my profile', data);
+      dispatch();
+      dispatch(onSuccessMessage('User updated'));
+      setTimeout(() => {
+        dispatch(clearSuccessMessage());
+      }, 10);
+    } catch (error) {
+      const errorMesage = existError(error);
+
+      dispatch(onErrorMessage(errorMesage));
+      setTimeout(() => {
+        dispatch(clearErrorMessage());
+      }, 10);
+    }
+  };
+};
+
+export const startFindUser = (term) => {
+  return async (dispatch) => {
+    try {
+      const { data } = await quoterApi.get('/auth/admin/find/' + term);
+      console.log('response GET user', data);
+
+      dispatch(onSuccessMessage('User Finded'));
+      dispatch(onUsersFinded(data));
+      setTimeout(() => {
+        dispatch(clearSuccessMessage());
+      }, 10);
+    } catch (error) {
+      const errorMesage = existError(error);
+
+      dispatch(onErrorMessage(errorMesage));
+      setTimeout(() => {
+        dispatch(clearErrorMessage());
+      }, 10);
+    }
+  };
+};
+
+export const startUploadingFiles = (files = [], id) => {
   const formData = new FormData();
   formData.append('file', files[0]);
 
   return async (dispatch, getState) => {
-    const { user } = getState().auth;
+    if (!id) {
+      const { user } = getState().auth;
+      id = user.id;
+    }
 
     try {
-      const { data } = await quoterApi.patch('/files/user/' + user.id, formData);
+      const { data } = await quoterApi.patch('/files/user/' + id, formData);
       dispatch(onUpdateImageProfile(data.image));
       dispatch(onSuccessMessage('Image uploaded'));
       setTimeout(() => {

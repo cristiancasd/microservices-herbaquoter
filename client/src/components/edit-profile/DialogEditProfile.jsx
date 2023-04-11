@@ -4,10 +4,10 @@ import { Alert, Button } from '@mui/material';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { Dialog, DialogActions, DialogContent, DialogTitle, Grid } from '@mui/material';
-import { useForm } from '../../../hooks/useForm';
+import { useForm } from '../../hooks/useForm';
 import { FormularyImage } from './FormularyImage';
 import { FormularyPassword } from './FormularyPassword';
-import { startEditProfile, startUploadingFiles } from '../../../store/auth/thunks';
+import { startEditProfile, startEditUser, startUploadingFiles } from '../../store/auth/thunks';
 import { FormularyGeneralInfo } from './FormularyGeneralInfo';
 
 const passwordRules = /(?:(?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/;
@@ -29,6 +29,7 @@ export const DialogEditProfile = ({ openEditProfile, handleCloseEditProfile, use
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [currentEdit, setCurrentEdit] = useState('General Info');
   const { successMessage } = useSelector((state) => state.auth);
+  const { currentPage } = useSelector((state) => state.common);
 
   // Change profile photo|
   const [imageFile, setImageFile] = useState(undefined);
@@ -40,6 +41,7 @@ export const DialogEditProfile = ({ openEditProfile, handleCloseEditProfile, use
   const dispatch = useDispatch();
 
   const {
+    id,
     oldPassword,
     oldPasswordValid,
     password,
@@ -97,7 +99,9 @@ export const DialogEditProfile = ({ openEditProfile, handleCloseEditProfile, use
           newPassword: password,
           herbalifelevel: herbalifeLevel,
         };
-        dispatch(startEditProfile(userNormaliced));
+        currentPage === 'manager'
+          ? dispatch(startEditUser(userNormaliced, id))
+          : dispatch(startEditProfile(userNormaliced));
       }
 
       if (currentEdit === 'General Info') {
@@ -112,7 +116,9 @@ export const DialogEditProfile = ({ openEditProfile, handleCloseEditProfile, use
         dispatch(startEditProfile(userNormaliced));
       }
     } else {
-      dispatch(startUploadingFiles(imageFile));
+      currentPage === 'manager'
+        ? dispatch(startUploadingFiles(imageFile, id))
+        : dispatch(startUploadingFiles(imageFile));
     }
   };
 
