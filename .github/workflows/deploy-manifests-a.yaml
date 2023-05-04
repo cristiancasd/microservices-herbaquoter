@@ -1,4 +1,4 @@
-name: deploy-manifests-aws
+name: deploy-manifests-a
 on:
   push:
     branches:
