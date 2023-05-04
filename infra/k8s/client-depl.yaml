@@ -10,7 +10,7 @@ spec:
   template:
     metadata:
       labels:
-        app: client
+        app: client  
     spec:
       containers:
         - name: client
