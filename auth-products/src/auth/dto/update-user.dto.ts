@@ -44,7 +44,7 @@ export class UpdateUserDto {
     @MinLength(1)
     @IsIn(['cliente','cliente-15', 'cliente-25', 'cliente-35',
     'distribuidor-25', 'distribuidor-35','distribuidor-42', 'supervisor'])
-    herbalifeLevel: string;
+    herbalifelevel: string;
 
     @ApiProperty({
         description: 'user country'

@@ -1,12 +1,12 @@
-import { AppRouter } from './router/AppRouter'
-import { AppTheme } from './theme/AppTheme'
+import { AppRouter } from './router/AppRouter';
+import { AppTheme } from './theme/AppTheme';
 
 export const QuoterApp = () => {
   return (
     <>
       <AppTheme>
-        <AppRouter/>
+        <AppRouter />
       </AppTheme>
     </>
-  )
-}
+  );
+};

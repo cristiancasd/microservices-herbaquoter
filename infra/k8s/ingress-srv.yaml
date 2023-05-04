@@ -11,7 +11,7 @@ spec:
     - host: ticketing-criss.com
       http:
         paths:
-
+ 
     # ********** Auth -NEST ***************
           - path: /doc/auth-products/?(.*)
             pathType: Prefix

@@ -6,10 +6,10 @@ build:
   artifacts:
     - image: cristiancasd/herbaquoter-auth-products
       context: auth-products
-      docker:
+      docker: 
         dockerfile: Dockerfile
       sync:
-        manual:
+        manual: 
           - src: "src/**/*.ts"
             dest: .
     - image: cristiancasd/herbaquoter-quoters

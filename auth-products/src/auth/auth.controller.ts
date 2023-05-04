@@ -45,7 +45,7 @@ export class AuthController {
   }
 
 
-  @Get(':term')
+  @Get('admin/find/:term')
   @ApiResponse({status: 201, description: 'User found',type: User})
   @ApiResponse({status: 400, description: 'Bad request'})
   @ApiResponse({status: 403, description: 'User no atuthorized'})
@@ -58,7 +58,7 @@ export class AuthController {
     return this.authService.findOne(term,user);
   }
 
-  @Patch('admin/:id')  
+  @Patch('admin/edit/:id')  
   @ApiResponse({status: 201, description: 'User updated', type: User})
   @ApiResponse({status: 400, description: 'Bad request'})
   @ApiResponse({status: 404, description: 'No se encontró el usuario'})
@@ -70,22 +70,26 @@ export class AuthController {
     return this.authService.update(id, updateAuthDto);
   }
 
-  @Patch(':id')
-  @ApiResponse({status: 201, description: 'User updated', type: User})
+  //@Patch('editmyprofile/:id')
+  @Patch('editmyprofile')
+
+  @ApiResponse({status: 200, description: 'User updated', type: User})
   @ApiResponse({status: 400, description: 'Bad request'})
-  @ApiResponse({status: 403, description: 'User no atuthorized'})
+  //@ApiResponse({status: 403, description: 'User no atuthorized'})
   @ApiResponse({status: 404, description: 'User not found in DB'})
   @ApiBearerAuth('JWT-auth')
   @Auth()
-  updateUser(
-    @Param('id', ParseUUIDPipe) id: string, 
+  //updateUser(
+    updateMyProfile(
+  //@Param('id', ParseUUIDPipe) id: string, 
   @Body() updateUserDto: UpdateUserDto,
   @GetUser()user: User) 
   {
-    return this.authService.updateUser(id, updateUserDto, user);
+   // return this.authService.updateUser(id, updateUserDto, user);
+    return this.authService.updateMyProfile(updateUserDto, user);
   }
  
-  @Delete(':id')
+  @Delete('delete/:id')
   @ApiResponse({status: 201, description: 'User deleted'})
   @ApiResponse({status: 400, description: 'Bad request'})
   @ApiResponse({status: 403, description: 'User no atuthorized'})
