@@ -10,14 +10,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Install AWS CLI
+      - name: Setup AWS CLI
+        uses: aws-actions/configure-aws-cli@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+      - name: Download kubeconfig.yaml
         run: |
-          sudo apt-get update
-          sudo apt-get install -y awscli
-      - name: Configure AWS credentials
-        run: |
-          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws configure set region us-east-1
-      - run: aws s3 cp s3://my-bucket/kubeconfig.yaml .
-      - run: KUBECONFIG=./kubeconfig.yaml kubectl apply -f infra/k8s && KUBECONFIG=./kubeconfig.yaml kubectl apply -f infra/k8s-prod
+          mkdir -p ~/.kube
+          curl -o ~/.kube/config -L "https://raw.githubusercontent.com/your-repo/kubeconfig.yaml"
+      - run: kubectl apply -f infra/k8s && kubectl apply -f infra/k8s-prod
