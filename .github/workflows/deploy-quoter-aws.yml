@@ -1,0 +1,44 @@
+name: deploy-quoters
+
+on:
+  push:
+    branches:
+      - main
+    paths: 
+      - 'quoterss/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      - run: cd quoterss && docker build -t cristiancasd/herbaquoter-quoters .
+      - run: docker push cristiancasd/herbaquoter-quoters
+      - name: Install AWS CLI
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y awscli
+      - name: Configure AWS credentials
+        run: |
+          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws configure set region us-east-1
+      - name: SSH into EC2 instance
+        uses: appleboy/ssh-action@v0.18.1
+        with:
+          host: <public_ip_of_ec2_instance>
+          username: ubuntu
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          passphrase: ${{ secrets.SSH_PASSPHRASE }}
+          script: |
+            # update the instance packages
+            sudo apt-get update
+            # install docker if not already installed
+            sudo apt-get install docker.io -y
+            # run the docker image
+            sudo docker run -p 5000:5000 -d cristiancasd/herbaquoter-quoters
