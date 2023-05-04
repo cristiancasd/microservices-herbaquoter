@@ -2,7 +2,7 @@
 import { quoterApi } from '../../api';
 import { getEnvVariables } from '../../helpers/getEnvVariables';
 import { startLoadingCategories, startLoadingProducts } from '../quoter/thunks';
-import { onUsersFinded } from '../searcher/searcherSlice';
+import { onResetSearcher, onUsersFinded, updateImageUserFinded, updateUserActivated, updateUserDeleted, updateUsersFinded } from '../searcher/searcherSlice';
 import {
   checkingCredentials,
   clearErrorMessage,
@@ -146,12 +146,17 @@ export const chekAuthToken = () => {
 export const startLogout = () => {
   return async (dispatch) => {
     dispatch(checkingCredentials());
+    dispatch( onResetSearcher());
+   
+
     localStorage.clear();
     dispatch(onLogout());
   };
 };
 
 export const startEditProfile = (userNewData) => {
+  console.log('estoy en startEditProfile');
+
   return async (dispatch) => {
     // dispatch(checkingCredentials());
     const userNewDataBackend = {};
@@ -188,18 +193,21 @@ export const startEditProfile = (userNewData) => {
   };
 };
 
+//*************************** Admin functions ******************************/
+
 export const startEditUser = (userNewData, id) => {
+  console.log('estoy en startEditUser');
   return async (dispatch) => {
     // dispatch(checkingCredentials());
     const userNewDataBackend = {};
     for (let clave in userNewData) {
       if (userNewData[clave] !== '' && clave !== 'password2') userNewDataBackend[clave] = userNewData[clave];
     }
-    console.log('data profile to update ', userNewDataBackend);
+    console.log('data user to update ', userNewDataBackend);
     try {
       const { data } = await quoterApi.patch('/auth/admin/edit/' + id, userNewDataBackend);
-      console.log('response update my profile', data);
-      dispatch();
+      console.log('response update user', data);
+      dispatch(updateUsersFinded(data));
       dispatch(onSuccessMessage('User updated'));
       setTimeout(() => {
         dispatch(clearSuccessMessage());
@@ -237,11 +245,13 @@ export const startFindUser = (term) => {
   };
 };
 
-export const startUploadingFiles = (files = [], id) => {
+export const startUploadingFiles = (files = [], idUser) => {
   const formData = new FormData();
   formData.append('file', files[0]);
 
   return async (dispatch, getState) => {
+    let id=idUser;
+   
     if (!id) {
       const { user } = getState().auth;
       id = user.id;
@@ -249,7 +259,11 @@ export const startUploadingFiles = (files = [], id) => {
 
     try {
       const { data } = await quoterApi.patch('/files/user/' + id, formData);
-      dispatch(onUpdateImageProfile(data.image));
+
+      idUser
+      ? dispatch(updateImageUserFinded({id:idUser, image:data.image}))
+      : dispatch(onUpdateImageProfile(data.image))
+        
       dispatch(onSuccessMessage('Image uploaded'));
       setTimeout(() => {
         dispatch(clearSuccessMessage());
@@ -263,6 +277,57 @@ export const startUploadingFiles = (files = [], id) => {
     }
   };
 };
+
+export const startDeleteUser=(idToDelete) => {
+  return async (dispatch) => {
+    try {
+      console.log('deleting user with ID ', idToDelete)
+      const { data } = await quoterApi.delete('/auth/delete/' + idToDelete);
+      
+      console.log('response delete user', data);
+
+      dispatch(onSuccessMessage('User Deleted'));
+      dispatch(updateUserDeleted(idToDelete));
+      setTimeout(() => {
+        dispatch(clearSuccessMessage());
+      }, 10);
+    } catch (error) {
+      const errorMesage = existError(error);
+
+      dispatch(onErrorMessage(errorMesage));
+      setTimeout(() => {
+        dispatch(clearErrorMessage());
+      }, 10);
+    }
+  };
+};
+
+export const startActivateUser=(term) => {
+  return async (dispatch) => {
+    try {
+      console.log('activating user with ID ', term)
+      const { data } = await quoterApi.post('/auth/activate/' + term);
+      
+      console.log('response activate user', data);
+
+      dispatch(onSuccessMessage('User Activate'));
+      dispatch(updateUserActivated(term));
+      setTimeout(() => {
+        dispatch(clearSuccessMessage());
+      }, 10);
+    } catch (error) {
+      const errorMesage = existError(error);
+
+      dispatch(onErrorMessage(errorMesage));
+      setTimeout(() => {
+        dispatch(clearErrorMessage());
+      }, 10);
+    }
+  };
+};
+
+
+//*************************************************************************/
 
 const existError = (error, email = '') => {
   console.log('error register ', error);

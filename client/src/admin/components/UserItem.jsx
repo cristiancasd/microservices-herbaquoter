@@ -1,9 +1,12 @@
 import { Box, Button, Divider, Grid, ImageList, ImageListItem, ListItem, Typography } from '@mui/material';
 import { useState } from 'react';
-import { DialogEditProfile } from '../../components/edit-profile/DialogEditProfile';
+import { DialogEditUser } from './edit-user/DialogEditUser';
+import { useDispatch } from 'react-redux';
+import { startActivateUser, startDeleteUser } from '../../store/auth/thunks';
 
 export const UserItem = (user) => {
-  const { fullname, email, herbalifelevel, id, image, isactive, country } = user;
+  const { fullname, email, herbalifelevel, id, image, isactive, country, rol } = user;
+  const dispatch = useDispatch();
 
   function BoldText({ children }) {
     return <span style={{ fontWeight: 'bold' }}>{children}</span>;
@@ -13,10 +16,17 @@ export const UserItem = (user) => {
   return (
     <>
       {openEditProfile && (
-        <DialogEditProfile
+        <DialogEditUser
           openEditProfile={openEditProfile}
           handleCloseEditProfile={() => setOpenEditProfile(false)}
-          user={{ ...user, password: '', password2: '', oldPassword: '' }}
+          user={{
+            ...user,
+            name: fullname,
+            herbalifeLevel: herbalifelevel,
+            password: '',
+            password2: '',
+            oldPassword: '',
+          }}
         />
       )}
       <ListItem disablePadding>
@@ -67,7 +77,11 @@ export const UserItem = (user) => {
                     <BoldText>Level:</BoldText> {herbalifelevel}
                   </Typography>
                 </Grid>
-
+                <Grid item xs={12} sm={12}>
+                  <Typography fontSize={14} display="block" align="left">
+                    <BoldText>Role:</BoldText> {rol}
+                  </Typography>
+                </Grid>
                 <Grid item xs={5} sm={7}>
                   <Typography
                     fontSize={17}
@@ -89,14 +103,29 @@ export const UserItem = (user) => {
                     Edit
                   </Button>{' '}
                 </Grid>
-                <Grid item xs={3.5} sm={2.5} align="right">
-                  <Button
-                    variant="outlined"
-                    size="small" //onClick={searchInfo}
-                  >
-                    Search
-                  </Button>{' '}
-                </Grid>
+                {!isactive && (
+                  <Grid item xs={3.5} sm={2.5} align="right">
+                    <Button
+                      variant="outlined"
+                      size="small" 
+                      onClick={()=>dispatch(startActivateUser(id))}
+                    >
+                      Activate
+                    </Button>{' '}
+                  </Grid>
+                )}
+                {isactive && (
+                  <Grid item xs={3.5} sm={2.5} align="right">
+                    <Button
+                      variant="outlined"
+                      size="small"
+                      color="error" 
+                      onClick={()=>dispatch(startDeleteUser(id))}
+                    >
+                      Delete
+                    </Button>{' '}
+                  </Grid>
+                )}
               </Grid>
             </Grid>
 

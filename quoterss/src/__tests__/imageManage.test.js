@@ -1,6 +1,6 @@
 const { saveImageOnCloudinary, deleteImageCloudinary } = require('../helpers/imageManage');
 const cloudinary = require('cloudinary').v2;
-cloudinary.config(process.env.CLOUDINARY_URL);
+cloudinary.config(process.env.CLOUDINARY_URL); 
 
 describe('saveImageOnCloudinary helper', () => {
   it('should upload image to cloudinary', async () => {

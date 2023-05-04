@@ -130,7 +130,7 @@ export class AuthService {
 
   async update(id: string, updateAuthDto: UpdateAuthDto) {   
     console.log('estoy en update') 
-    const {email, password, ...toUpdate}=updateAuthDto;
+    const {/*email,*/password, ...toUpdate}=updateAuthDto;
     let user=await this.userRepository.preload({
       id,
       ...toUpdate

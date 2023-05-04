@@ -6,6 +6,7 @@ import { AuthRoutes } from '../auth/routes/AuthRoutes';
 import { QuoterRoutes } from '../quoter/routes/QuoterRoutes';
 import { chekAuthToken } from '../store/auth/thunks';
 import { CheckingAuth } from '../ui/components/CheckingAuth';
+import { onResetSearcher } from '../store/searcher/searcherSlice';
 
 export const AppRouter = () => {
   const dispatch = useDispatch();
@@ -14,6 +15,7 @@ export const AppRouter = () => {
 
   useEffect(() => {
     dispatch(chekAuthToken());
+    dispatch( onResetSearcher());
   }, []);
 
   if (status === 'checking') {

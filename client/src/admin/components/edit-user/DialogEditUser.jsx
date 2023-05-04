@@ -4,25 +4,16 @@ import { Alert, Button } from '@mui/material';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { Dialog, DialogActions, DialogContent, DialogTitle, Grid } from '@mui/material';
-import { useForm } from '../../hooks/useForm';
+import { startEditUser, startUploadingFiles } from '../../../store/auth/thunks';
+import { getDataNormalicedToEditUser} from '../../../helpers/getDataNormaliced';
+import { FormularyUserGeneralInfo } from './FormularyUserGeneralInfo';
+import { FormularyUserPassword } from './FormularyUserPassword';
 import { FormularyImage } from './FormularyImage';
-import { FormularyPassword } from './FormularyPassword';
-import { startEditProfile, startEditUser, startUploadingFiles } from '../../store/auth/thunks';
-import { FormularyGeneralInfo } from './FormularyGeneralInfo';
-import {
-  getDataNormalicedToEditMyPassword,
-  getDataNormalicedToEditMyProfile,
-  getDataNormalicedToEditUser,
-} from '../../helpers/getDataNormaliced';
+import { useForm } from '../../../hooks/useForm';
 
 const passwordRules = /(?:(?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/;
 const formValidations = {
   email: [(value) => value.includes('@'), 'must be have the character @'],
-  //oldPassword: [(value) => value.length >= 6, 'must have at least 6 characters, 1 number, 1 uppercase, 1 lowercase'],
-  oldPassword: [
-    (value) => value.match(passwordRules),
-    'must have at least 6 characters, 1 number, 1 uppercase, 1 lowercase',
-  ],
   password: [
     (value) => value.match(passwordRules),
     'must have at least 6 characters, 1 number, 1 uppercase, 1 lowercase',
@@ -30,10 +21,11 @@ const formValidations = {
   password2: [(value) => value === formData.password, 'new passwords do not match'],
 };
 
-export const DialogEditProfile = ({ openEditProfile, handleCloseEditProfile, user }) => {
+export const DialogEditUser = ({ openEditProfile, handleCloseEditProfile, user }) => {
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [currentEdit, setCurrentEdit] = useState('General Info');
   const { successMessage } = useSelector((state) => state.auth);
+  const { currentPage } = useSelector((state) => state.common);
 
   // Change profile photo|
   const [imageFile, setImageFile] = useState(undefined);
@@ -45,9 +37,11 @@ export const DialogEditProfile = ({ openEditProfile, handleCloseEditProfile, use
   const dispatch = useDispatch();
 
   const {
+    email,
+    emailValid,
+    rol,
     id,
-    oldPassword,
-    oldPasswordValid,
+
     password,
     passwordValid,
     password2,
@@ -71,7 +65,7 @@ export const DialogEditProfile = ({ openEditProfile, handleCloseEditProfile, use
         ? true
         : false
       : currentEdit === 'General Info'
-      ? oldPasswordValid || nameValid || herbalifeLevelValid
+      ? nameValid || herbalifeLevelValid
         ? true
         : false
       : !imageFile
@@ -95,18 +89,17 @@ export const DialogEditProfile = ({ openEditProfile, handleCloseEditProfile, use
     if (currentEdit !== 'Profile Photo') {
       if (currentEdit === 'Password') {
         if (!isFormValid) return;
-        const dataNormaliced = getDataNormalicedToEditMyPassword(formState);
-        dispatch(startEditProfile(dataNormaliced));
+        const dataNormaliced = getDataNormalicedToEditUser(formState);
+        dispatch(startEditUser(dataNormaliced,id));
       }
 
       if (currentEdit === 'General Info') {
-        if (oldPasswordValid || nameValid || herbalifeLevelValid) return;
-
-        const dataNormaliced = getDataNormalicedToEditMyProfile(formState);
-        dispatch(startEditProfile(dataNormaliced));
+        if (nameValid || herbalifeLevelValid) return;
+        const dataNormaliced = getDataNormalicedToEditUser(formState);
+        dispatch(startEditUser(dataNormaliced, id));
       }
     } else {
-      dispatch(startUploadingFiles(imageFile));
+      dispatch(startUploadingFiles(imageFile, id))
     }
   };
 
@@ -151,28 +144,25 @@ export const DialogEditProfile = ({ openEditProfile, handleCloseEditProfile, use
         aria-labelledby="scroll-dialog-title"
         aria-describedby="scroll-dialog-description"
       >
-        <DialogTitle id="scroll-dialog-title"> Edit Profile: {currentEdit} </DialogTitle>
+        <DialogTitle id="scroll-dialog-title"> Edit USER: {currentEdit} </DialogTitle>
 
         <form onSubmit={onSave}>
           <DialogContent>
             {buttonsControll}
             {currentEdit === 'General Info' ? (
-              <FormularyGeneralInfo
+              <FormularyUserGeneralInfo
                 formSubmitted={formSubmitted}
                 onInputChange={onInputChange}
-                oldPassword={oldPassword}
-                oldPasswordValid={oldPasswordValid}
-                name={name}
-                herbalifeLevel={herbalifeLevel}
-                country={country}
+                //name={name}
+                //herbalifeLevel={herbalifeLevel}
+                //country={country}
+                formState={formState}
                 user={user}
                 resetAll={resetAll}
               />
             ) : currentEdit === 'Password' ? (
-              <FormularyPassword
+              <FormularyUserPassword
                 onInputChange={onInputChange}
-                oldPassword={oldPassword}
-                oldPasswordValid={oldPasswordValid}
                 password={password}
                 passwordValid={passwordValid}
                 password2={password2}

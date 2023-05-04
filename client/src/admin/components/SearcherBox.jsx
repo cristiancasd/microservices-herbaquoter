@@ -23,7 +23,7 @@ export const SearcherBox = (props) => {
           size="small"
           id="standard-basic"
           label="Searcher"
-          placeholder="ID or "
+          placeholder="ID or email"
           value={input}
           onChange={(event) => {
             setInput(event.target.value);

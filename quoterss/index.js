@@ -1,6 +1,5 @@
 require('dotenv').config();
 require('colors');
-require('dotenv').config();
 
 const { app } = require('./src/app');
 const sequelize = require('./src/database/config');
@@ -18,7 +17,7 @@ const start = async () => {
     try {
       console.log('voy a intentar conectar GitAction');
       await sequelize.sync();
-      console.log('conectado a la db'.yellow);
+      console.log('conectado a la db'.yellow); 
       wrongConnection = false;
     } catch (error) {
       console.log('error conectand a la db'.red);

@@ -89,7 +89,7 @@ export class AuthController {
     return this.authService.updateMyProfile(updateUserDto, user);
   }
  
-  @Delete(':id')
+  @Delete('delete/:id')
   @ApiResponse({status: 201, description: 'User deleted'})
   @ApiResponse({status: 400, description: 'Bad request'})
   @ApiResponse({status: 403, description: 'User no atuthorized'})

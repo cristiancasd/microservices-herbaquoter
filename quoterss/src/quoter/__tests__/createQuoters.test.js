@@ -13,7 +13,7 @@ const { globalCreateQuoter, tokens } = require('../../test/setup-jest');
 describe('CREATE QUOTER - POST /api/quoters/create', () => {
   it('should respond with a 200 status code', async () => {
     const { tokenAdmin } = tokens();
-    const quoter = await request(app)
+    const quoter = await request(app) 
       .post('/api/quoters/create')
       .send(quoterCorrect)
       .set('Authorization', `Bearer ${tokenAdmin}`);
