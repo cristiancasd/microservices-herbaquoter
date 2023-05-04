@@ -10,7 +10,7 @@ spec:
   template: 
     metadata:
       labels:
-        app: auth-products-postgres
+        app: auth-products-postgres 
     spec:
       containers:
         - name: auth-products-postgres
