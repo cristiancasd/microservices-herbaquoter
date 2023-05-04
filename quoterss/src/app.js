@@ -26,7 +26,7 @@ app.use('/doc/quoters', swaggerUI.serve, swaggerUI.setup(docs));
 app.all('*', async (req, res, next) => {
   const err = new NotFoundError('Route ');
   next(err);
-});
+}); 
 
 // Middleware errors
 app.use(errorHandler);
