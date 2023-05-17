@@ -17,8 +17,6 @@ import { PaginationDto } from 'src/common/dto/pagination.dto';
 import { validate as isUUID } from 'uuid'
 
   
-
-
 @Injectable()
 export class AuthService { 
 
@@ -27,7 +25,6 @@ export class AuthService {
     private readonly userRepository: Repository<User>,
     private readonly jwtService: JwtService, 
   ){}
-
 
   async create(createUserDto: CreateUserDto) {
     try{
@@ -107,8 +104,10 @@ export class AuthService {
     const queryBuilder=this.userRepository.createQueryBuilder('us');
     
     isUUID(term)
-      ? users=[await this.userRepository.findOneBy({id: term,isactive: true})]
-      : users=await queryBuilder.where('(us.email =:email or us.rol =:rol) and us.isactive =:isactive',{
+      //? users=[await this.userRepository.findOneBy({id: term,isactive: true})]
+      ? users=[await this.userRepository.findOneBy({id: term})]
+      //: users=await queryBuilder.where('(us.email =:email or us.rol =:rol) and us.isactive =:isactive',{
+      : users=await queryBuilder.where('(us.email =:email or us.rol =:rol)',{
         email: term.toLowerCase(),
         rol: term.toLowerCase(),
         isactive: true,
@@ -129,8 +128,9 @@ export class AuthService {
 
 
 
-  async update(id: string, updateAuthDto: UpdateAuthDto) {    
-    const {email, password, ...toUpdate}=updateAuthDto;
+  async update(id: string, updateAuthDto: UpdateAuthDto) {   
+    console.log('estoy en update') 
+    const {/*email,*/password, ...toUpdate}=updateAuthDto;
     let user=await this.userRepository.preload({
       id,
       ...toUpdate
@@ -155,6 +155,8 @@ export class AuthService {
 
 
   async updateUser(id: string, updateAuthDto: UpdateUserDto, user: User) {  
+    console.log('estoy en update USER') 
+
     const {password, newPassword, ...toUpdate}=updateAuthDto;
 
     let userDB=await this.userRepository.preload({
@@ -192,6 +194,48 @@ export class AuthService {
     return {
       updateAuthDto,
       id      
+    }    
+  }
+
+  async updateMyProfile( updateAuthDto: UpdateUserDto, user: User) {  
+    console.log('estoy en  updateMyProfile') 
+
+    const {password, newPassword, ...toUpdate}=updateAuthDto;
+
+    let userDB=await this.userRepository.preload({
+      id: user.id,
+      ...toUpdate
+    });
+   
+    if(!userDB) throw new NotFoundException(`UserDB with id ${user.id} not found`)  
+    
+    
+    if(!bcrypt.compareSync(password, userDB.password))
+      throw new UnauthorizedException('Credentials are not valid (password)')
+    
+    try{ 
+      
+      let userUpdate ={password: userDB.password} ;
+
+      (newPassword)
+        ? userUpdate={ ...userDB, ...toUpdate,
+        password: bcrypt.hashSync(newPassword, 10)
+        }
+
+        : userUpdate={ ...userDB,  ...toUpdate, password: userDB.password     
+        }
+
+
+      await this.userRepository.save(userUpdate);
+
+      const {password: password2, ...restUserUpdate}=userUpdate
+      return restUserUpdate;
+    }catch(error){
+      this.handleDBErrors(error)
+    }  
+    return {
+      updateAuthDto,
+      id:user.id    
     }    
   }
 

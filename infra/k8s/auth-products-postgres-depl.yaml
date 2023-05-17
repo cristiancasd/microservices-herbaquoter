@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: auth-products-postgres-depl
+  name: auth-products-postgres-depl  
 spec:
   replicas: 1
   selector:
@@ -10,7 +10,7 @@ spec:
   template: 
     metadata:
       labels:
-        app: auth-products-postgres
+        app: auth-products-postgres 
     spec:
       containers:
         - name: auth-products-postgres
