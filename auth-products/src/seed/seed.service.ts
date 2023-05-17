@@ -221,7 +221,7 @@ export class SeedService {
       : process.env.HOST_API_PROD
      
     users.forEach(async (user) => {        
-      const path=process.env.baseUrl+'/files/user/'+user.image
+      const path=baseUrl+'/files/user/'+user.image
       a==1 ? a=2 :a=1
       await this.authService.update(user.id, {image: path})
     });
