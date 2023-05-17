@@ -216,8 +216,12 @@ export class SeedService {
 
     const users= await this.authService.findAll({limit:100})
     let a=1;
+     const baseUrl=process.env.STAGE==='dev'
+      ? process.env.HOST_API
+      : process.env.HOST_API_PROD
+     
     users.forEach(async (user) => {        
-      const path=process.env.HOST_API+'/files/user/'+user.image
+      const path=process.env.baseUrl+'/files/user/'+user.image
       a==1 ? a=2 :a=1
       await this.authService.update(user.id, {image: path})
     });
