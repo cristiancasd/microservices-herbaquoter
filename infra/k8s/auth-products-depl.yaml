@@ -48,6 +48,12 @@ spec:
                 secretKeyRef:
                   name: jwt-secret-herbaquoter
                   key: JWT_SECRET
+                  
+            - name: CLOUD_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: cloud-name
+                  key: CLOUD_NAME
 
             - name: CLOUDINARY_URL
               valueFrom:
